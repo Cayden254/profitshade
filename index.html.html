@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<htm
+l lang="en">
 
 <head>
   <meta charset="UTF-8" />
@@ -63,52 +64,48 @@
           <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('profitprime')">Profit Prime</a></li>
           <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('contact')">Contact</a></li>
         </ul>
+        <a href="https://oauth.deriv.com/oauth2/authorize?app_id=82139&redirect_uri=https://profitshade.vercel.app" class="btn btn-primary ms-3">Login</a>
       </div>
     </div>
   </nav>
 
-  <!-- Login Required Prompt -->
-  <div id="login-required" class="text-center mt-5">
-    <h4 class="text-light">🔐 Please log in to access the tools.</h4>
-    <a href="https://oauth.deriv.com/oauth2/authorize?app_id=82139&redirect_uri=https://profitshade.vercel.app" class="btn btn-success mt-3">Login with Deriv</a>
+  <div id="login-required" class="section text-center">
+    <h2 class="text-warning">🔐 Please Login</h2>
+    <p class="text-light">You need to log in to access ProfitShade tools.</p>
+    <a href="https://oauth.deriv.com/oauth2/authorize?app_id=82139&redirect_uri=https://profitshade.vercel.app" class="btn btn-success">Login with Deriv</a>
   </div>
 
-  <!-- Authenticated Tool Sections -->
+  <!-- ✅ This is where your actual tools start -->
   <div id="tool-sections" style="display: none;">
-    <div id="account-info" class="text-light text-center mb-4" style="display: none;">
-      <p>👤 <strong>ID:</strong> <span id="account-id"></span></p>
-      <p>💰 <strong>Balance:</strong> <span id="account-balance"></span></p>
-      <p>🧾 <strong>Type:</strong> <span id="account-type"></span></p>
-      <button class="btn btn-sm btn-outline-danger mt-2" onclick="logoutDeriv()">Logout</button>
-    </div>
-
     <section class="section" id="freebots">
       <div class="container text-center">
-        <h2 class="text-warning">🧠 Free Bots Section</h2>
-        <!-- Your tabs and bot content goes here -->
+        <h2 class="text-warning">🧠 Free Bots Hub</h2>
+        <p>Click any bot to load in the Deriv Bot Builder:</p>
+        <!-- Example bot button -->
+        <button class="btn btn-outline-warning" onclick="loadBot('bots/CMV-Pro.xml')">Load CMV Pro Bot</button>
       </div>
     </section>
 
-    <section class="section" id="dashboard" style="display:none;">
-      <div class="container text-center">
-        <h2 class="text-warning">Dashboard</h2>
-        <p>Welcome to the ProfitShade dashboard!</p>
-      </div>
-    </section>
-
-    <section class="section" id="botbuilder" style="display:none;">
+    <section class="section" id="botbuilder">
       <div class="container text-center">
         <h2 class="text-warning">🚀 Deriv Bot Builder</h2>
         <iframe id="botBuilderIframe" src="https://app.deriv.com/bot" width="100%" height="600" style="border: 1px solid #444; border-radius: 10px;"></iframe>
       </div>
     </section>
 
-    <!-- Add other sections (analysis, dtrader, signals, etc.) below like this -->
+    <section class="section" id="dashboard" style="display: none;">
+      <div class="container text-center">
+        <h2 class="text-warning">📊 Dashboard</h2>
+        <p>View your trading activity here.</p>
+      </div>
+    </section>
+
+    <!-- Add your other tools like analysis, dtrader, signals, etc. -->
   </div>
 
   <footer>
     <div class="container">
-      <p>© 2025 ProfitShade FX • Designed by Agustine • <a href="https://deriv.com/signup?sidc=..." target="_blank">Sign up on Deriv</a></p>
+      <p>© 2025 ProfitShade FX • Designed by Agustine • <a href="https://deriv.com/signup?sidc=F29079D3-31B8-4321-8A5B-0B13DBD26761" target="_blank">Join Deriv</a></p>
     </div>
   </footer>
 
