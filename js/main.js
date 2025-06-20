@@ -1,4 +1,3 @@
-// Extract token from URL and store
 const params = new URLSearchParams(window.location.search);
 const token = params.get("token");
 
@@ -10,7 +9,6 @@ if (token) {
 const savedToken = localStorage.getItem("deriv_token");
 
 if (savedToken) {
-  // Create WebSocket connection to Deriv API
   const ws = new WebSocket("wss://ws.derivws.com/websockets/v3");
 
   ws.onopen = () => {
@@ -19,28 +17,24 @@ if (savedToken) {
 
   ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
-
     if (data.error) {
       alert("Authorization failed. Please log in again.");
       logoutDeriv();
       return;
     }
-
     if (data.msg_type === "authorize") {
-      // ✅ Logged in
-      document.getElementById("login-required").style.display = "none";
       document.getElementById("tool-sections").style.display = "block";
-
+      document.getElementById("login-required").style.display = "none";
       console.log("✅ Logged in as:", data.authorize.loginid);
     }
   };
 
   ws.onerror = () => {
-    alert("WebSocket error occurred.");
+    alert("WebSocket error. Please reload.");
   };
 } else {
-  document.getElementById("login-required").style.display = "block";
   document.getElementById("tool-sections").style.display = "none";
+  document.getElementById("login-required").style.display = "block";
 }
 
 function logoutDeriv() {
