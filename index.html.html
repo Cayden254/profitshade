@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<htm
-l lang="en">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ProfitShade FX - Trade Smart, Profit Sharp</title>
-  <link rel="icon" href="/logo.png" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
@@ -50,7 +48,7 @@ l lang="en">
 <body>
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#"><img src="/logo.png" alt="logo" width="30" /> PROFITSHADE_FX</a>
+      <a class="navbar-brand" href="#">PROFITSHADE_FX</a>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('freebots')">Free Bots</a></li>
@@ -75,13 +73,10 @@ l lang="en">
     <a href="https://oauth.deriv.com/oauth2/authorize?app_id=82139&redirect_uri=https://profitshade.vercel.app" class="btn btn-success">Login with Deriv</a>
   </div>
 
-  <!-- ✅ This is where your actual tools start -->
   <div id="tool-sections" style="display: none;">
     <section class="section" id="freebots">
       <div class="container text-center">
         <h2 class="text-warning">🧠 Free Bots Hub</h2>
-        <p>Click any bot to load in the Deriv Bot Builder:</p>
-        <!-- Example bot button -->
         <button class="btn btn-outline-warning" onclick="loadBot('bots/CMV-Pro.xml')">Load CMV Pro Bot</button>
       </div>
     </section>
@@ -99,8 +94,6 @@ l lang="en">
         <p>View your trading activity here.</p>
       </div>
     </section>
-
-    <!-- Add your other tools like analysis, dtrader, signals, etc. -->
   </div>
 
   <footer>
@@ -112,4 +105,5 @@ l lang="en">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/main.js"></script>
 </body>
+
 </html>
