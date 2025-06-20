@@ -71,6 +71,66 @@
   </style>
 </head>
 <body>
+  <!-- 🔐 Login Prompt Section -->
+<div id="login-required" class="text-center mt-5">
+  <h4 class="text-light">🔐 Please log in to access the tools.</h4>
+  <a href="https://oauth.deriv.com/oauth2/authorize?app_id=82139&redirect_uri=https://profitshade.vercel.app"
+     class="btn btn-success mt-3">Login with Deriv</a>
+</div>
+
+<!-- ✅ User-only tools start here -->
+<div id="tool-sections" style="display: none;">
+  
+  <!-- Account Info (optional) -->
+  <div id="account-info" style="display: none;" class="text-light text-center mb-4">
+    <p>👤 <strong>ID:</strong> <span id="account-id"></span></p>
+    <p>💰 <strong>Balance:</strong> <span id="account-balance"></span></p>
+    <p>🧾 <strong>Type:</strong> <span id="account-type"></span></p>
+    <button class="btn btn-sm btn-outline-danger mt-2" onclick="logoutDeriv()">Logout</button>
+  </div>
+
+  <!-- Then put all tool sections here -->
+  <section class="section" id="freebots">
+    <!-- Your tabs + tab content for free bots -->
+  </section>
+
+  <section class="section" id="dashboard">
+    <!-- Dashboard content -->
+  </section>
+
+  <section class="section" id="botbuilder">
+    <!-- Deriv bot iframe builder -->
+  </section>
+
+  <section class="section" id="analysis">
+    <!-- AI analysis tools -->
+  </section>
+
+  <section class="section" id="dtrader">
+    <!-- Deriv D-Trader iframe -->
+  </section>
+
+  <section class="section" id="signals">
+    <!-- AI signals -->
+  </section>
+
+  <section class="section" id="charts">
+    <!-- Deriv chart iframe -->
+  </section>
+
+  <section class="section" id="copytrading">
+    <!-- API token copy trading -->
+  </section>
+
+  <section class="section" id="profitprime">
+    <!-- Profit Prime automation -->
+  </section>
+
+  <section class="section" id="contact">
+    <!-- Contact links -->
+  </section>
+
+</div>
 
 <!-- 🔐 Account Info -->
 <div id="account-info">
@@ -87,6 +147,13 @@
   <a href="https://oauth.deriv.com/oauth2/authorize?app_id=82139&redirect_uri=https://profitshade.vercel.app" class="btn btn-lg btn-success px-4">
     🔐 Login with Deriv
   </a>
+</div>
+
+<div id="account-info" style="display: none;" class="text-light text-center mb-4">
+  <p>👤 <strong>ID:</strong> <span id="account-id"></span></p>
+  <p>💰 <strong>Balance:</strong> <span id="account-balance"></span></p>
+  <p>🧾 <strong>Type:</strong> <span id="account-type"></span></p>
+  <button class="btn btn-sm btn-outline-danger mt-2" onclick="logoutDeriv()">Logout</button>
 </div>
 
 <!-- 🔧 Tool Sections -->
@@ -236,6 +303,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script src="js/main.js"></script>
+
 
 </body>
 </html>
