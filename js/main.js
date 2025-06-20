@@ -1,4 +1,4 @@
-// ✅ Handle login token
+// Extract token from URL and store
 const params = new URLSearchParams(window.location.search);
 const token = params.get("token");
 
@@ -10,33 +10,50 @@ if (token) {
 const savedToken = localStorage.getItem("deriv_token");
 
 if (savedToken) {
-  fetch(`https://oauth.deriv.com/api/authorize?token=${savedToken}`)
-    .then(res => res.json())
-    .then(data => {
-      if (!data.authorize) throw new Error("Invalid token");
+  // Create WebSocket connection to Deriv API
+  const ws = new WebSocket("wss://ws.derivws.com/websockets/v3");
 
-      document.getElementById("tool-sections").style.display = "block";
+  ws.onopen = () => {
+    ws.send(JSON.stringify({ authorize: savedToken }));
+  };
+
+  ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+
+    if (data.error) {
+      alert("Authorization failed. Please log in again.");
+      logoutDeriv();
+      return;
+    }
+
+    if (data.msg_type === "authorize") {
+      // ✅ Logged in
       document.getElementById("login-required").style.display = "none";
+      document.getElementById("tool-sections").style.display = "block";
 
       console.log("✅ Logged in as:", data.authorize.loginid);
-    })
-    .catch(err => {
-      console.error("Auth failed:", err);
-      logoutDeriv();
-    });
+    }
+  };
+
+  ws.onerror = () => {
+    alert("WebSocket error occurred.");
+  };
 } else {
-  document.getElementById("tool-sections").style.display = "none";
   document.getElementById("login-required").style.display = "block";
+  document.getElementById("tool-sections").style.display = "none";
 }
 
-// ✅ Load bot to builder
+function logoutDeriv() {
+  localStorage.removeItem("deriv_token");
+  window.location.reload();
+}
+
 function loadBot(botPath) {
   const iframe = document.getElementById("botBuilderIframe");
   iframe.src = `https://app.deriv.com/bot?bot=${botPath}`;
   showSection("botbuilder");
 }
 
-// ✅ Switch section
 function showSection(id) {
   document.querySelectorAll(".section").forEach(section => {
     section.style.display = "none";
@@ -44,10 +61,4 @@ function showSection(id) {
   const target = document.getElementById(id);
   if (target) target.style.display = "block";
   window.scrollTo(0, 0);
-}
-
-// ✅ Logout
-function logoutDeriv() {
-  localStorage.removeItem("deriv_token");
-  window.location.reload();
 }
