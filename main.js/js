@@ -1,9 +1,0 @@
-function refreshDashboard() {
-    const balance = (Math.random() * 100 + 10).toFixed(2);
-    const trades = Math.floor(Math.random() * 100);
-    const profit = (Math.random() * 50 - 10).toFixed(2);
-  
-    document.getElementById("balance").textContent = `$${balance}`;
-    document.getElementById("trades").textContent = trades;
-    document.getElementById("profit").textContent = (profit > 0 ? "+" : "") + `$${profit}`;
-  }
