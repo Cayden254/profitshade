@@ -1,19 +1,26 @@
-// Handle Deriv Login Token
+// ✅ Get token from Deriv URL (token1, token2, token3)
 const params = new URLSearchParams(window.location.search);
-const token = params.get("token");
+const token =
+  params.get("token2") || // prefer real account
+  params.get("token1") ||
+  params.get("token3");
 
+// ✅ Save token to localStorage and clean URL
 if (token) {
   localStorage.setItem("deriv_token", token);
   window.location.href = window.location.origin + window.location.pathname;
 }
 
+// ✅ Check saved token and show tools
 const savedToken = localStorage.getItem("deriv_token");
 
 if (savedToken) {
+  // Show tools, hide login
   document.getElementById("tool-sections").style.display = "block";
   document.getElementById("login-required").style.display = "none";
   document.getElementById("account-info").style.display = "block";
 
+  // Authorize using Deriv API
   fetch("https://api.deriv.com/api/v1/authorize", {
     method: "POST",
     headers: {
@@ -29,21 +36,23 @@ if (savedToken) {
       document.getElementById("account-type").textContent = acc.account_type === "virtual" ? "Demo" : "Real";
     })
     .catch(() => {
-      alert("Failed to authorize. Please log in again.");
+      alert("❌ Failed to authorize. Please log in again.");
       logoutDeriv();
     });
 } else {
+  // Show login panel only
   document.getElementById("tool-sections").style.display = "none";
   document.getElementById("login-required").style.display = "block";
   document.getElementById("account-info").style.display = "none";
 }
 
+// ✅ Logout button clears token
 function logoutDeriv() {
   localStorage.removeItem("deriv_token");
   window.location.reload();
 }
 
-// Optional: section switching
+// ✅ Optional: section switching logic
 function showSection(id) {
   document.querySelectorAll(".section").forEach(section => {
     section.style.display = "none";
@@ -52,6 +61,7 @@ function showSection(id) {
   if (target) target.style.display = "block";
   window.scrollTo(0, 0);
 }
-console.log("Token:", token);
-console.log("Saved token:", savedToken);
 
+// ✅ Debug logs
+console.log("URL Token:", token);
+console.log("Saved Token:", savedToken);
