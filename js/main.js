@@ -52,3 +52,6 @@ function showSection(id) {
   if (target) target.style.display = "block";
   window.scrollTo(0, 0);
 }
+console.log("Token:", token);
+console.log("Saved token:", savedToken);
+
