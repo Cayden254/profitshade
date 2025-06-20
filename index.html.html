@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ProfitShade FX - Trade Smart, Profit Sharp</title>
+  <title>ProfitShade FX - Trade Smart, Profit Sharp 🔥</title>
+  <link rel="icon" href="/logo.png" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     body {
-      background-color: #0d0d0d;
+      background-color: #1e0d0d;
       color: #f0f0f0;
       font-family: 'Segoe UI', sans-serif;
     }
@@ -24,6 +25,17 @@
     .section {
       padding: 60px 20px;
     }
+    .bot-card {
+      background-color: #1c1c2b;
+      border-radius: 8px;
+      padding: 20px;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    .btn-primary {
+      background-color: #6a1b9a;
+      border: none;
+    }
     footer {
       background-color: #1f1f2e;
       color: #aaa;
@@ -34,186 +46,196 @@
       color: #fdd835;
       text-decoration: none;
     }
-    footer a:hover {
-      text-decoration: underline;
+    #account-info {
+      background: #2b2b3d;
+      color: #fff;
+      padding: 10px 20px;
+      display: none;
+      font-size: 14px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    }
+    #account-info button {
+      float: right;
+      background: #ff4c4c;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 13px;
+    }
+    #login-required {
+      text-align: center;
+      padding: 80px 20px;
+      display: none;
     }
   </style>
 </head>
 <body>
 
-<!-- Access Gateway -->
-<div id="access-gateway" class="section text-center">
-  <h2 class="text-warning">🔐 Welcome to ProfitShade</h2>
-  <p class="text-light">Please log in to your Deriv account or create one to access tools.</p>
-  <a href="https://deriv.com/signup?sidc=F29079D3-31B8-4321-8A5B-0B13DBD26761" class="btn btn-warning" target="_blank">✍️ Create Free Account</a>
-  <br><br>
-  <button onclick="grantAccess()" class="btn btn-success">🚀 I've Logged In — Continue</button>
+<!-- 🔐 Account Info -->
+<div id="account-info">
+  <strong>👤 Logged in as:</strong> <span id="account-id">---</span> |
+  <strong>💰 Balance:</strong> <span id="account-balance">$0.00</span> |
+  <strong>📘 Account Type:</strong> <span id="account-type">---</span>
+  <button onclick="logoutDeriv()">Logout</button>
 </div>
 
-<!-- API Token Login -->
-<div id="token-login" class="section text-center" style="display:none;">
-  <h4 class="text-warning">🔑 Connect Your Deriv API Token</h4>
-  <input type="text" id="apiToken" placeholder="Paste API Token" class="form-control w-50 mx-auto mb-3" />
-  <button onclick="connectToken()" class="btn btn-outline-warning">🔗 Connect</button>
-  <p id="loginStatus" class="mt-3 text-info"></p>
-  <p><small><a href="https://app.deriv.com/account/api-token" target="_blank">Where to get your token?</a></small></p>
+<!-- 🔐 Login Required -->
+<div id="login-required">
+  <h2 class="text-warning mb-4">🔐 Login Required</h2>
+  <p class="text-light mb-4">Please log in with your Deriv account to access the tools.</p>
+  <a href="https://oauth.deriv.com/oauth2/authorize?app_id=YOUR_APP_ID&redirect_uri=https://profitshade.vercel.app" class="btn btn-lg btn-success px-4">
+    🔐 Login with Deriv
+  </a>
 </div>
 
-<!-- Main App -->
-<div id="main-app" style="display:none;">
-  <!-- Navbar -->
+<!-- 🔧 Tool Sections -->
+<div id="tool-sections" style="display: none;">
+  <!-- 🔹 Navbar -->
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">PROFITSHADE_FX</a>
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('dashboard')">Dashboard</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('botbuilder')">Bot Builder</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('strategies')">Strategies</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('risk')">Risk Calculator</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('charts')">Charts</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('contact')">Contact</a></li>
-      </ul>
+      <a class="navbar-brand" href="#"><img src="/logo.png" alt="logo" width="30" /> PROFITSHADE_FX</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#freebots">Free Bots</a></li>
+          <li class="nav-item"><a class="nav-link" href="#botbuilder">Bot Builder</a></li>
+          <li class="nav-item"><a class="nav-link" href="#strategy">Strategies</a></li>
+          <li class="nav-item"><a class="nav-link" href="#risk">Risk Calc</a></li>
+        </ul>
+      </div>
     </div>
   </nav>
 
-  <!-- Dashboard -->
-  <section class="section" id="dashboard">
+  <!-- 🧠 Free Bots -->
+  <section class="section" id="freebots">
     <div class="container text-center">
-      <h2 class="text-warning">📊 Dashboard</h2>
-      <p>Balance: <span id="balance">$0.00</span> | Trades: <span id="trades">0</span> | Profit: <span id="profit">$0.00</span></p>
-      <button class="btn btn-outline-light" onclick="refreshDashboard()">🔄 Refresh</button>
+      <h2 class="text-warning mb-4">🧠 Select a Bot to Load</h2>
+      <div class="row">
+        <div class="col-md-4 mb-3"><button class="btn btn-outline-warning w-100" onclick="loadBot('bots/Killer-market-AI.xml')">Killer Market AI</button></div>
+        <div class="col-md-4 mb-3"><button class="btn btn-outline-warning w-100" onclick="loadBot('bots/CMV-Pro.xml')">CMV Pro</button></div>
+      </div>
     </div>
   </section>
 
-  <!-- Bot Builder -->
-  <section class="section" id="botbuilder" style="display:none;">
+  <!-- 🤖 Bot Builder -->
+  <section class="section" id="botbuilder">
     <div class="container text-center">
-      <h2 class="text-warning">🤖 Bot Builder</h2>
-      <p>Login to Deriv first before loading bots.</p>
-      <iframe id="botBuilderIframe" src="https://app.deriv.com/bot" width="100%" height="600" style="border:1px solid #444; border-radius:10px;"></iframe>
+      <h4 class="text-warning mb-4">🤖 Bot Builder</h4>
+      <iframe id="botBuilderIframe" src="https://app.deriv.com/bot" width="100%" height="600" style="border: 1px solid #444; border-radius: 10px;"></iframe>
     </div>
   </section>
 
-  <!-- Strategies -->
-  <section class="section" id="strategies" style="display:none;">
+  <!-- 📘 Strategies -->
+  <section class="section" id="strategy">
     <div class="container">
-      <h2 class="text-warning">📘 Strategies</h2>
-      <p>Even/Odd, Over/Under, Matches/Differs, and Rise/Fall strategies will be listed here.</p>
+      <h4 class="text-warning">📘 Strategy Highlights</h4>
+      <p><strong>Even/Odd:</strong> Look for 55% win rate and 3+ opposite digits before entry.</p>
+      <p><strong>Over/Under:</strong> Choose under 8 or over 1 when low digits drop below 10%.</p>
+      <p><strong>Differs:</strong> Entry when predicted digit hits, with under 9% prediction rate.</p>
     </div>
   </section>
 
-  <!-- Risk Calculator -->
-  <section class="section" id="risk" style="display:none;">
+  <!-- 🧮 Risk Calculator -->
+  <section class="section" id="risk">
     <div class="container">
-      <h2 class="text-warning">📉 Martingale Risk Calculator</h2>
+      <h4 class="text-warning mb-4">🧮 Martingale Risk Calculator</h4>
       <form oninput="calcMartingale()">
-        <input id="capital" placeholder="Capital ($)" type="number" class="form-control mb-2" />
-        <input id="initial" placeholder="Initial Stake ($)" type="number" class="form-control mb-2" />
-        <input id="levels" placeholder="Martingale Levels" type="number" class="form-control mb-3" />
-        <div class="alert alert-dark">
-          <ul id="stakeList"></ul>
-          <p>Total Risk: <span id="totalRisk">$0.00</span></p>
-          <p>Remaining: <span id="remaining">$0.00</span></p>
-        </div>
+        <input type="number" id="capital" class="form-control mb-2" placeholder="Total Capital">
+        <input type="number" id="initial" class="form-control mb-2" placeholder="Initial Stake">
+        <input type="number" id="levels" class="form-control mb-2" placeholder="Martingale Levels">
       </form>
-    </div>
-  </section>
-
-  <!-- Charts -->
-  <section class="section" id="charts" style="display:none;">
-    <div class="container text-center">
-      <h2 class="text-warning">📈 Charts</h2>
-      <p>Live Deriv charts or iframe will go here (coming soon).</p>
-    </div>
-  </section>
-
-  <!-- Contact -->
-  <section class="section" id="contact" style="display:none;">
-    <div class="container text-center">
-      <h2 class="text-warning">📞 Contact</h2>
-      <p>Join us:</p>
-      <a href="https://t.me/+ihdGiMFSFb42ODhk" class="btn btn-outline-info m-1">Telegram</a>
-      <a href="https://whatsapp.com/channel/0029VbAHOD24IBhMjykDfE1E" class="btn btn-outline-success m-1">WhatsApp</a>
+      <div class="alert alert-dark mt-3">
+        <strong>Stake Levels:</strong>
+        <ul id="stakeList" class="mb-0"></ul>
+        <hr>
+        <strong>Total Risk:</strong> <span id="totalRisk">$0.00</span> |
+        <strong>Remaining:</strong> <span id="remaining">$0.00</span>
+      </div>
     </div>
   </section>
 </div>
 
-<!-- Footer -->
+<!-- 🔚 Footer -->
 <footer>
-  <div class="container">
-    <p>© 2025 ProfitShade FX. Designed by Agustine. <a href="https://deriv.com/signup?sidc=F29079D3-31B8-4321-8A5B-0B13DBD26761">Sign Up</a></p>
-  </div>
+  <p>© 2025 ProfitShade FX • Designed by Agustine • <a href="https://deriv.com/signup?sidc=F29079D3-31B8-4321-8A5B-0B13DBD26761" target="_blank">Sign up on Deriv</a></p>
 </footer>
 
-<!-- SCRIPTS -->
+<!-- ✅ Scripts -->
 <script>
-function grantAccess() {
-  localStorage.setItem("user_access", "true");
-  document.getElementById("access-gateway").style.display = "none";
-  document.getElementById("token-login").style.display = "block";
-}
+  const urlParams = new URLSearchParams(window.location.search);
+  const tokenFromUrl = urlParams.get("token");
 
-function connectToken() {
-  const token = document.getElementById("apiToken").value.trim();
-  if (!token) return document.getElementById("loginStatus").innerText = "❌ Enter your API token.";
-  const ws = new WebSocket("wss://ws.deriv.com/websockets/v3");
-  ws.onopen = () => ws.send(JSON.stringify({ authorize: token }));
-  ws.onmessage = msg => {
-    const data = JSON.parse(msg.data);
-    if (data.msg_type === "authorize") {
-      localStorage.setItem("deriv_token", token);
-      document.getElementById("loginStatus").innerHTML =
-        `✅ Welcome <strong>${data.authorize.loginid}</strong> | Balance: ${data.authorize.balance}`;
-      document.getElementById("token-login").style.display = "none";
-      document.getElementById("main-app").style.display = "block";
-      refreshDashboard();
-    } else {
-      document.getElementById("loginStatus").innerText = "❌ Invalid token.";
+  if (tokenFromUrl) {
+    localStorage.setItem("deriv_token", tokenFromUrl);
+    window.location.href = window.location.origin + window.location.pathname;
+  }
+
+  const savedToken = localStorage.getItem("deriv_token");
+
+  if (savedToken) {
+    document.getElementById("tool-sections").style.display = "block";
+    document.getElementById("login-required").style.display = "none";
+    document.getElementById("account-info").style.display = "block";
+
+    fetch("https://api.deriv.com/api/v1/authorize", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ authorize: savedToken }),
+    })
+    .then(res => res.json())
+    .then(data => {
+      const account = data.authorize;
+      document.getElementById("account-id").textContent = account.loginid;
+      document.getElementById("account-balance").textContent = `$${account.balance.toFixed(2)}`;
+      document.getElementById("account-type").textContent = account.account_type === "virtual" ? "Demo" : "Real";
+    })
+    .catch(() => {
+      alert("Authorization failed. Please log in again.");
+      logoutDeriv();
+    });
+  } else {
+    document.getElementById("login-required").style.display = "block";
+    document.getElementById("tool-sections").style.display = "none";
+    document.getElementById("account-info").style.display = "none";
+  }
+
+  function logoutDeriv() {
+    localStorage.removeItem("deriv_token");
+    alert("You have been logged out.");
+    location.reload();
+  }
+
+  function loadBot(botUrl) {
+    const iframe = document.getElementById("botBuilderIframe");
+    iframe.src = `https://app.deriv.com/bot?bot=${botUrl}`;
+    document.getElementById('botbuilder').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function calcMartingale() {
+    const capital = parseFloat(document.getElementById("capital").value) || 0;
+    const initial = parseFloat(document.getElementById("initial").value) || 0;
+    const levels = parseInt(document.getElementById("levels").value) || 0;
+    const stakeList = document.getElementById("stakeList");
+    stakeList.innerHTML = "";
+
+    let totalRisk = 0;
+    for (let i = 0; i < levels; i++) {
+      const stake = initial * Math.pow(2, i);
+      totalRisk += stake;
+      const li = document.createElement("li");
+      li.textContent = `Level ${i + 1}: $${stake.toFixed(2)}`;
+      stakeList.appendChild(li);
     }
-  };
-}
 
-function refreshDashboard() {
-  const balance = (Math.random() * 100 + 10).toFixed(2);
-  const trades = Math.floor(Math.random() * 100);
-  const profit = (Math.random() * 50 - 10).toFixed(2);
-  document.getElementById("balance").textContent = `$${balance}`;
-  document.getElementById("trades").textContent = trades;
-  document.getElementById("profit").textContent = (profit > 0 ? "+" : "") + `$${profit}`;
-}
-
-function calcMartingale() {
-  const capital = parseFloat(document.getElementById("capital").value) || 0;
-  const initial = parseFloat(document.getElementById("initial").value) || 0;
-  const levels = parseInt(document.getElementById("levels").value) || 0;
-  let stakeList = document.getElementById("stakeList");
-  stakeList.innerHTML = "";
-  let totalRisk = 0;
-  for (let i = 0; i < levels; i++) {
-    const stake = initial * Math.pow(2, i);
-    totalRisk += stake;
-    const li = document.createElement("li");
-    li.textContent = `Level ${i + 1}: $${stake.toFixed(2)}`;
-    stakeList.appendChild(li);
+    const remaining = capital - totalRisk;
+    document.getElementById("totalRisk").textContent = `$${totalRisk.toFixed(2)}`;
+    document.getElementById("remaining").textContent = `$${remaining.toFixed(2)}`;
   }
-  const remaining = capital - totalRisk;
-  document.getElementById("totalRisk").textContent = `$${totalRisk.toFixed(2)}`;
-  document.getElementById("remaining").textContent = `$${remaining.toFixed(2)}`;
-}
-
-function showSection(id) {
-  document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
-  document.getElementById(id).style.display = 'block';
-  window.scrollTo(0, 0);
-}
-
-window.addEventListener("DOMContentLoaded", function () {
-  if (localStorage.getItem("user_access") === "true") {
-    document.getElementById("access-gateway").style.display = "none";
-    document.getElementById("token-login").style.display = "block";
-  }
-});
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="js/main.js"></script>
 
 </body>
 </html>
