@@ -101,14 +101,81 @@
         </div>
       </div>
 
-      <!-- Bot Builder -->
-      <div class="tab-pane fade" id="botbuilder">
-        <h4 class="text-warning mb-3">🚀 Deriv Bot Builder</h4>
-        <p class="text-light">Please log in to Deriv to use the bot builder.</p>
-        <iframe id="botBuilderIframe" src="https://app.deriv.com/bot" width="100%" height="600" style="border: 1px solid #444;"></iframe>
+      <!-- Custom Bot Builder -->
+<div class="tab-pane fade" id="botbuilder">
+  <h4 class="text-warning mb-3">🚀 Custom Deriv Bot Builder</h4>
+
+  <!-- Strategy Tabs -->
+  <ul class="nav nav-pills mb-3" id="strategyTabs">
+    <li class="nav-item"><button class="nav-link active" data-strategy="evenodd">Even/Odd</button></li>
+    <li class="nav-item"><button class="nav-link" data-strategy="overunder">Over/Under</button></li>
+    <li class="nav-item"><button class="nav-link" data-strategy="risefall">Rise/Fall</button></li>
+    <li class="nav-item"><button class="nav-link" data-strategy="matchesdiffers">Matches/Differs</button></li>
+  </ul>
+
+  <!-- Strategy Panel -->
+  <div class="card bg-dark text-light p-3">
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label>Volatility Index</label>
+        <select id="market" class="form-select">
+          <option value="R_10">Volatility 10</option>
+          <option value="R_25">Volatility 25</option>
+          <option value="R_50">Volatility 50</option>
+          <option value="R_75">Volatility 75</option>
+          <option value="R_100" selected>Volatility 100</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label>Stake ($)</label>
+        <input type="number" id="stake" class="form-control" value="0.35" step="0.01">
+      </div>
+      <div class="col-md-4">
+        <label>Ticks</label>
+        <input type="number" id="duration" class="form-control" value="1" min="1">
       </div>
     </div>
+
+    <!-- Prediction (For Matches/Differs or Over/Under) -->
+    <div class="row mb-3" id="prediction-row" style="display: none;">
+      <div class="col-md-4">
+        <label>Prediction</label>
+        <input type="number" id="prediction" class="form-control" min="0" max="9">
+      </div>
+    </div>
+
+    <!-- Martingale -->
+    <div class="form-check form-switch mb-3">
+      <input class="form-check-input" type="checkbox" id="useMartingale">
+      <label class="form-check-label" for="useMartingale">Use Martingale</label>
+    </div>
+    <div class="row mb-3" id="martingale-settings" style="display: none;">
+      <div class="col-md-4">
+        <label>Multiplier</label>
+        <input type="number" id="multiplier" class="form-control" value="2" step="0.1">
+      </div>
+      <div class="col-md-4">
+        <label>Stop Loss ($)</label>
+        <input type="number" id="stoploss" class="form-control">
+      </div>
+      <div class="col-md-4">
+        <label>Take Profit ($)</label>
+        <input type="number" id="takeprofit" class="form-control">
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="d-flex justify-content-center gap-3 mt-3">
+      <button id="startBot" class="btn btn-success">▶️ Start</button>
+      <button id="pauseBot" class="btn btn-warning">⏸ Pause</button>
+      <button id="resumeBot" class="btn btn-primary">🔁 Resume</button>
+      <button id="stopBot" class="btn btn-danger">🛑 Stop</button>
+    </div>
+
+    <div class="mt-3 alert alert-info" id="botStatus">Bot status: <strong>Idle</strong></div>
   </div>
+</div>
+
 
   <script src="js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
