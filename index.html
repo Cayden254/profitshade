@@ -24,7 +24,6 @@
   </nav>
 
   <div class="container mt-4">
-    <!-- Tab Navigation -->
     <ul class="nav nav-tabs mb-4" id="tabLinks">
       <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#freebots">Free Bots</button></li>
       <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#strategies">Strategies</button></li>
@@ -37,36 +36,46 @@
       <div class="tab-pane fade show active" id="freebots">
         <h4 class="text-warning mb-3">🧠 Select a Bot</h4>
         <div class="row">
-          <div class="col-md-4 mb-3"><button class="btn btn-outline-warning w-100" onclick="loadBot('bots/Killer-market-AI.xml')">Killer Market AI</button></div>
-          <div class="col-md-4 mb-3"><button class="btn btn-outline-warning w-100" onclick="loadBot('bots/ARANETA-BOT.xml')">Araneta AI</button></div>
           <div class="col-md-4 mb-3"><button class="btn btn-outline-warning w-100" onclick="loadBot('bots/CMV-Pro.xml')">CMV Pro Bot</button></div>
-          <div class="col-md-4 mb-3"><button class="btn btn-outline-warning w-100" onclick="loadBot('bots/02R43-Pro.xml')">Over 2</button></div>
           <div class="col-md-4 mb-3"><button class="btn btn-outline-warning w-100" onclick="loadBot('bots/U7R56-Pro.xml')">Under 7</button></div>
-          <div class="col-md-4 mb-3"><button class="btn btn-outline-warning w-100" onclick="loadBot('bots/Trade_City_Bot_Version_2.0.xml')">Trade City Bot V2</button></div>
-          <div class="col-md-4 mb-3"><button class="btn btn-outline-warning w-100" onclick="loadBot('bots/Matches_Differs-Bot.xml')">Matches/Differs Bot</button></div>
-          <div class="col-md-4 mb-3"><button class="btn btn-outline-warning w-100" onclick="loadBot('bots/Digit-Hyper-Bot.xml')">Digit Hyper Bot</button></div>
         </div>
       </div>
 
-      <!-- Strategies Tab -->
+      <!-- Strategies -->
       <div class="tab-pane fade" id="strategies">
         <h4 class="text-warning mb-4">📘 Trading Strategies</h4>
+
         <h5 class="text-info">🔢 Even Strategy & Entry</h5>
-        <p><strong>Criteria:</strong> 2, 4, 6, 8 at 11.5%+. Main: Vol 100. Entry: Wait 4–5 hits on odd, then confirm even before entry.</p>
+        <p>
+          <strong>Criteria:</strong> When numbers (2, 4, 6, 8) are 11.5%+, place an <strong>Even</strong> contract on any Volatility Index.<br>
+          <strong>Entry:</strong> Wait for 4–5 cursor hits on odd numbers, then run on even.
+        </p>
 
         <h5 class="text-info">🔢 Odd Strategy & Entry</h5>
-        <p><strong>Criteria:</strong> 1, 3, 5, 7, 9 at 11%+. Main: Vol 75. Entry: Wait 3–4 hits on even, confirm odd hit before entry.</p>
+        <p>
+          <strong>Criteria:</strong> When numbers (1, 3, 5, 7, 9) are 11%+, place an <strong>Odd</strong> contract.<br>
+          <strong>Entry:</strong> Wait for 3–4 even hits, then run on odd.
+        </p>
 
         <h5 class="text-info">📈 Over/Under Strategy</h5>
-        <p>Over 0 & 1: Green ≥ 10.5%, Red ≤ 9%. Cursor must hit 0/1 once or twice before entry.<br>
-        Over 2: Digits 3–9 ≥ 10%. After Under 2 loss, enter Over 2 when cursor hits 0–2.</p>
+        <p>
+          <strong>Over 0/1:</strong> Use 1 tick. Green bar ≥ 10.5%, red bar ≤ 9%.<br>
+          <strong>Entry:</strong> Hit 0/1 twice, then run bot.<br><br>
+          <strong>Over 2:</strong> Digits 3–9 ≥ 10%.<br>
+          <strong>Entry:</strong> If last trade ends Under 2, enter Over when cursor hits 0–2.
+        </p>
 
-        <h5 class="text-info">🎯 Matches & Differs</h5>
-        <p>Differs: Predict digit under 9%, Green bar under 12%. Ensure predicted number hit at least once before entry.</p>
+        <h5 class="text-info">🎯 Matches & Differs Strategy</h5>
+        <p>
+          <strong>Digit Differs:</strong> Use 1 tick. Predict digit with < 9%, Green bar < 12%.<br>
+          <strong>Entry:</strong> Wait until the predicted number appears once, then enter.
+        </p>
 
         <h5 class="text-info">📉 Rise and Fall</h5>
-        <p><strong>Rise:</strong> Confirm trend with moving averages + volume. Enter after pullback. Stop loss below support.<br>
-        <strong>Fall:</strong> Confirm downtrend, enter after bounce off resistance. Stop loss above resistance.</p>
+        <p>
+          <strong>Rise:</strong> Wait for confirmation on moving average + pullback near support.<br>
+          <strong>Fall:</strong> Confirm resistance then sell. Use stop-loss just above resistance.
+        </p>
       </div>
 
       <!-- Risk Calculator -->
