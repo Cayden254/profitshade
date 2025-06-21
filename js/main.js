@@ -1,91 +1,66 @@
-// main.js - ProfitShade Core Script
+// Deriv Login via WebSocket
+const loginBtn = document.getElementById('login-btn');
+const logoutBtn = document.getElementById('logout-btn');
+const accountInfo = document.getElementById('account-info');
 
-const app_id = 82139;
-const redirect_uri = "https://profitshade.vercel.app";
-const deriv_login_url = `https://oauth.deriv.com/oauth2/authorize?app_id=${app_id}&redirect_uri=${redirect_uri}`;
+const tokenParam = new URLSearchParams(window.location.search).get('token');
+if (tokenParam) {
+  localStorage.setItem('deriv_token', tokenParam);
+  window.location.href = window.location.origin + window.location.pathname;
+}
 
-// Theme Toggle
-const toggleTheme = () => {
-  const current = document.body.getAttribute("data-theme") || "light";
-  const newTheme = current === "light" ? "dark" : "light";
-  document.body.setAttribute("data-theme", newTheme);
-  localStorage.setItem("theme", newTheme);
-};
+const token = localStorage.getItem('deriv_token');
+let socket;
 
-// Apply Saved Theme
-const savedTheme = localStorage.getItem("theme") || "light";
-document.body.setAttribute("data-theme", savedTheme);
+if (token) {
+  authorizeUser(token);
+} else {
+  showLogin();
+}
 
-// Elements
-const loginBtn = document.getElementById("login-btn");
-const logoutBtn = document.getElementById("logout-btn");
-const accountInfo = document.getElementById("account-info");
-const accountId = document.getElementById("account-id");
-const accountBalance = document.getElementById("account-balance");
-const accountType = document.getElementById("account-type");
-const botIframe = document.getElementById("botBuilderIframe");
+function authorizeUser(token) {
+  socket = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=82139');
 
-// Load Bot
-function loadBot(botUrl) {
-  const token = localStorage.getItem("deriv_token");
-  if (!token) {
-    alert("🔐 Please login first to load bots.");
-    return;
-  }
- // Handles contract type buttons and prediction display
-function renderContractOptions() {
-  const strategy = document.getElementById("strategy").value;
-  const predictionGroup = document.getElementById("prediction-group");
-  const contractOptions = document.getElementById("contract-options");
-  contractOptions.innerHTML = "";
-
-  const strategies = {
-    evenodd: ["Even", "Odd"],
-    overunder: ["Over", "Under"],
-    matchesdiffers: ["Matches", "Differs"],
-    risefall: ["Rise", "Fall"]
+  socket.onopen = () => {
+    socket.send(JSON.stringify({ authorize: token }));
   };
 
-  const needsPrediction = strategy === "overunder" || strategy === "matchesdiffers";
-  predictionGroup.style.display = needsPrediction ? "block" : "none";
+  socket.onmessage = (msg) => {
+    const data = JSON.parse(msg.data);
+    if (data.error) {
+      alert("❌ Authorization failed. Please log in again.");
+      logout();
+      return;
+    }
 
-  for (let type of strategies[strategy]) {
-    const btn = document.createElement("button");
-    btn.className = "btn btn-outline-primary";
-    btn.textContent = type;
-    btn.onclick = () => {
-      document.querySelectorAll("#contract-options button").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      btn.setAttribute("data-selected", "true");
-    };
-    contractOptions.appendChild(btn);
-  }
+    if (data.msg_type === 'authorize') {
+      document.getElementById('account-id').textContent = data.authorize.loginid;
+      document.getElementById('account-balance').textContent = `$${data.authorize.balance.toFixed(2)}`;
+      document.getElementById('account-type-btn').textContent = data.authorize.account_type === 'virtual' ? 'Demo' : 'Real';
+      accountInfo.classList.remove('d-none');
+      logoutBtn.classList.remove('d-none');
+      loginBtn.classList.add('d-none');
+    }
+  };
 }
 
-// Martingale section toggle
-document.getElementById("martingaleCheck").addEventListener("change", (e) => {
-  document.getElementById("martingale-settings").style.display = e.target.checked ? "block" : "none";
-});
-
-// Placeholder bot functions
-function startBot() {
-  alert("✅ Bot started with selected config.");
+function logout() {
+  localStorage.removeItem('deriv_token');
+  location.reload();
 }
 
-function pauseBot() {
-  alert("⏸️ Bot paused.");
+loginBtn.onclick = () => {
+  window.location.href = "https://oauth.deriv.com/oauth2/authorize?app_id=82139&redirect_uri=https://profitshade.vercel.app";
+};
+
+function toggleTheme() {
+  document.body.classList.toggle('dark-theme');
 }
 
-function resumeBot() {
-  alert("▶️ Bot resumed.");
-}
-
-function stopBot() {
-  alert("🛑 Bot stopped.");
-}
-
-  document.querySelector('[data-bs-target="#botbuilder"]').click();
-  document.getElementById("botbuilder").scrollIntoView({ behavior: "smooth" });
+function switchAccountType(type) {
+  if (!token) return alert('Login first.');
+  socket.send(JSON.stringify({ authorize: token }));
+  alert(`Switched to ${type.toUpperCase()} account`);
 }
 
 // Martingale Calculator
@@ -108,46 +83,12 @@ function calcMartingale() {
   document.getElementById("remaining").textContent = `$${remaining.toFixed(2)}`;
 }
 
-// Handle login token
-const params = new URLSearchParams(window.location.search);
-const token = params.get("token1") || params.get("token");
-
-if (token) {
-  localStorage.setItem("deriv_token", token);
-  window.location.href = window.location.origin + window.location.pathname;
-} else {
-  const savedToken = localStorage.getItem("deriv_token");
-  if (savedToken) {
-    const ws = new WebSocket("wss://ws.derivws.com/websockets/v3?app_id=" + app_id);
-    ws.onopen = () => {
-      ws.send(JSON.stringify({ authorize: savedToken }));
-    };
-    ws.onmessage = (msg) => {
-      const data = JSON.parse(msg.data);
-      if (data.msg_type === "authorize") {
-        accountId.textContent = data.authorize.loginid;
-        accountBalance.textContent = `$${data.authorize.balance.toFixed(2)}`;
-        accountType.textContent = data.authorize.is_virtual ? "Demo" : "Real";
-        accountInfo.classList.remove("d-none");
-        loginBtn.classList.add("d-none");
-        logoutBtn.classList.remove("d-none");
-      } else if (data.error) {
-        alert("❌ Authorization failed. Please login again.");
-        logout();
-      }
-    };
+// Load Bot
+function loadBot(botUrl) {
+  const iframe = document.getElementById("botBuilderIframe");
+  if (iframe) {
+    iframe.src = `https://app.deriv.com/bot?bot=${botUrl}`;
   }
-}
-
-// Logout
-function logout() {
-  localStorage.removeItem("deriv_token");
-  window.location.href = window.location.origin;
-}
-
-// Login Button Redirect
-if (loginBtn) {
-  loginBtn.addEventListener("click", () => {
-    window.location.href = deriv_login_url;
-  });
+  const tabTrigger = new bootstrap.Tab(document.querySelector('[data-bs-target="#botbuilder"]'));
+  tabTrigger.show();
 }
