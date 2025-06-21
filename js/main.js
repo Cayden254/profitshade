@@ -1,21 +1,19 @@
-// Get valid token from any token1, token2, token3
+// Get the first available token from token1, token2, token3
 const params = new URLSearchParams(window.location.search);
-let token = params.get("token") || params.get("token1") || params.get("token2") || params.get("token3");
+const token = params.get("token") || params.get("token1") || params.get("token2") || params.get("token3");
 
 if (token) {
   localStorage.setItem("deriv_token", token);
-  // Clean up URL
+  // Clean the URL
   window.history.replaceState({}, document.title, window.location.pathname);
 }
 
 const savedToken = localStorage.getItem("deriv_token");
 
 if (savedToken) {
-  // Show tools and hide login
   document.getElementById("tool-sections").style.display = "block";
   document.getElementById("login-required").style.display = "none";
 
-  // Authorize user
   fetch("https://api.deriv.com/api/v1/authorize", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -26,7 +24,6 @@ if (savedToken) {
       if (data.error) {
         throw new Error("Authorization failed");
       }
-
       const acc = data.authorize;
       document.getElementById("account-id").textContent = acc.loginid;
       document.getElementById("account-balance").textContent = `$${acc.balance.toFixed(2)}`;
@@ -50,9 +47,8 @@ function showSection(id) {
   document.querySelectorAll(".tab-section").forEach(section => {
     section.style.display = "none";
   });
-  const target = document.getElementById(id);
-  if (target) target.style.display = "block";
-  window.scrollTo(0, 0);
+  const section = document.getElementById(id);
+  if (section) section.style.display = "block";
 }
 
 function logout() {
@@ -67,7 +63,6 @@ function toggleTheme() {
   localStorage.setItem("theme", body.classList.contains("light-theme") ? "light" : "dark");
 }
 
-// Load saved theme
 document.addEventListener("DOMContentLoaded", () => {
   const savedTheme = localStorage.getItem("theme");
   if (savedTheme === "light") {
