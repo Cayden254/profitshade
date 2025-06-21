@@ -1,51 +1,63 @@
-const app_id = 82139;
-const redirect_uri = "https://profitshade.vercel.app";
-
-document.getElementById("login-btn").href = `https://oauth.deriv.com/oauth2/authorize?app_id=${app_id}&redirect_uri=${redirect_uri}`;
-
-// Parse token from URL
-const urlParams = new URLSearchParams(window.location.search);
-const token = urlParams.get("token1") || urlParams.get("token");
-
-if (token) {
-  localStorage.setItem("deriv_token", token);
-  window.location.href = window.location.origin;
+// Theme Toggle
+function toggleTheme() {
+  const body = document.body;
+  const isDark = body.classList.toggle("dark-theme");
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+}
+if (localStorage.getItem("theme") === "dark") {
+  document.body.classList.add("dark-theme");
 }
 
-// Try WebSocket authorize
+// Deriv Login System
+const params = new URLSearchParams(window.location.search);
+const token = params.get("token1");
+if (token) {
+  localStorage.setItem("deriv_token", token);
+  window.location.href = window.location.origin + window.location.pathname;
+}
+
 const savedToken = localStorage.getItem("deriv_token");
+const loginBtn = document.getElementById("login-btn");
+const logoutBtn = document.getElementById("logout-btn");
+const accountInfo = document.getElementById("account-info");
+const toolSections = document.querySelector(".tab-content");
 
 if (savedToken) {
-  const ws = new WebSocket("wss://ws.derivws.com/websockets/v3?app_id=" + app_id);
+  loginBtn.classList.add("d-none");
+  logoutBtn.classList.remove("d-none");
+  accountInfo.classList.remove("d-none");
+
+  const ws = new WebSocket("wss://ws.derivws.com/websockets/v3?app_id=82139");
   ws.onopen = () => {
     ws.send(JSON.stringify({ authorize: savedToken }));
   };
-
   ws.onmessage = (msg) => {
     const data = JSON.parse(msg.data);
-    if (data.msg_type === "authorize") {
-      document.getElementById("login-btn").classList.add("d-none");
-      document.getElementById("logout-btn").classList.remove("d-none");
-      document.getElementById("account-info").classList.remove("d-none");
-
-      document.getElementById("account-id").textContent = data.authorize.loginid;
-      document.getElementById("account-balance").textContent = "$" + data.authorize.balance.toFixed(2);
-      document.getElementById("account-type").textContent = data.authorize.account_type === "virtual" ? "Demo" : "Real";
-    } else if (data.error) {
-      alert("❌ Authorization failed. Please log in again.");
+    if (data.error) {
+      alert("❌ Could not authorize your account. Please log in again.");
       logout();
+      return;
+    }
+
+    if (data.msg_type === "authorize") {
+      const acc = data.authorize;
+      document.getElementById("account-id").textContent = acc.loginid;
+      document.getElementById("account-balance").textContent = `$${acc.balance.toFixed(2)}`;
+      document.getElementById("account-type").textContent = acc.is_virtual ? "Demo" : "Real";
     }
   };
-} else {
-  document.getElementById("logout-btn").classList.add("d-none");
-  document.getElementById("account-info").classList.add("d-none");
+  ws.onerror = () => {
+    alert("WebSocket error. Try again.");
+  };
 }
 
+// Logout
 function logout() {
   localStorage.removeItem("deriv_token");
   window.location.reload();
 }
 
+// Bot Loader
 function loadBot(botUrl) {
   const iframe = document.getElementById("botBuilderIframe");
   iframe.src = `https://app.deriv.com/bot?bot=${botUrl}`;
@@ -53,15 +65,15 @@ function loadBot(botUrl) {
   tab.show();
 }
 
+// Risk Calculator
 function calcMartingale() {
   const capital = parseFloat(document.getElementById("capital").value) || 0;
   const initial = parseFloat(document.getElementById("initial").value) || 0;
   const levels = parseInt(document.getElementById("levels").value) || 0;
-
-  let stakeList = document.getElementById("stakeList");
+  const stakeList = document.getElementById("stakeList");
+  let totalRisk = 0;
   stakeList.innerHTML = "";
 
-  let totalRisk = 0;
   for (let i = 0; i < levels; i++) {
     const stake = initial * Math.pow(2, i);
     totalRisk += stake;
@@ -73,8 +85,4 @@ function calcMartingale() {
   const remaining = capital - totalRisk;
   document.getElementById("totalRisk").textContent = `$${totalRisk.toFixed(2)}`;
   document.getElementById("remaining").textContent = `$${remaining.toFixed(2)}`;
-}
-
-function toggleTheme() {
-  document.body.classList.toggle("light-theme");
 }
