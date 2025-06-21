@@ -16,11 +16,34 @@ if (savedToken) {
   document.getElementById("login-required").style.display = "none";
 
   // Authorize using the saved token
-  fetch("https://api.deriv.com/websockets/v3", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ authorize: savedToken })
+  fetch("https://api.deriv.com/api/v1/authorize", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ authorize: savedToken })
+})
+  .then(res => res.json())
+  .then(data => {
+    console.log("🔍 Deriv response:", data); // DEBUG LOG
+
+    if (data.error || !data.authorize) {
+      console.error("❌ Authorization error:", data.error); // DEBUG LOG
+      alert("❌ Authorization failed. Please log in again.");
+      logout();
+    } else {
+      const acc = data.authorize;
+      document.getElementById("account-id").textContent = acc.loginid;
+      document.getElementById("account-balance").textContent = `$${acc.balance.toFixed(2)}`;
+      document.getElementById("account-type").textContent = acc.account_type === "virtual" ? "Demo" : "Real";
+    }
   })
+  .catch(err => {
+    console.error("❌ Fetch failure:", err); // DEBUG LOG
+    alert("❌ Network error or bad response. Please try again.");
+    logout();
+  });
+
     .then(res => res.json())
     .then(data => {
       if (data.error || !data.authorize) {
