@@ -1,3 +1,4 @@
+// Handle Deriv OAuth Login
 const params = new URLSearchParams(window.location.search);
 const token = params.get("token");
 
@@ -9,50 +10,39 @@ if (token) {
 const savedToken = localStorage.getItem("deriv_token");
 
 if (savedToken) {
-  const ws = new WebSocket("wss://ws.derivws.com/websockets/v3");
+  document.getElementById("tool-sections").style.display = "block";
+  document.getElementById("login-required").style.display = "none";
 
-  ws.onopen = () => {
-    ws.send(JSON.stringify({ authorize: savedToken }));
-  };
-
-  ws.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-    if (data.error) {
-      alert("Authorization failed. Please log in again.");
-      logoutDeriv();
-      return;
-    }
-    if (data.msg_type === "authorize") {
-      document.getElementById("tool-sections").style.display = "block";
-      document.getElementById("login-required").style.display = "none";
-      console.log("✅ Logged in as:", data.authorize.loginid);
-    }
-  };
-
-  ws.onerror = () => {
-    alert("WebSocket error. Please reload.");
-  };
-} else {
-  document.getElementById("tool-sections").style.display = "none";
-  document.getElementById("login-required").style.display = "block";
+  fetch("https://api.deriv.com/api/v1/authorize", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ authorize: savedToken })
+  })
+    .then(res => res.json())
+    .then(data => {
+      const acc = data.authorize;
+      document.getElementById("account-id").textContent = acc.loginid;
+      document.getElementById("account-balance").textContent = `$${acc.balance.toFixed(2)}`;
+      document.getElementById("account-type").textContent = acc.account_type === "virtual" ? "Demo" : "Real";
+    })
+    .catch(() => {
+      alert("Session expired. Please log in again.");
+      logout();
+    });
 }
 
-function logoutDeriv() {
+function loadBot(xmlPath) {
+  document.getElementById("botBuilderIframe").src = `https://app.deriv.com/bot?bot=${xmlPath}`;
+  document.getElementById("botbuilder").scrollIntoView({ behavior: "smooth" });
+}
+
+function logout() {
   localStorage.removeItem("deriv_token");
   window.location.reload();
 }
 
-function loadBot(botPath) {
-  const iframe = document.getElementById("botBuilderIframe");
-  iframe.src = `https://app.deriv.com/bot?bot=${botPath}`;
-  showSection("botbuilder");
-}
-
-function showSection(id) {
-  document.querySelectorAll(".section").forEach(section => {
-    section.style.display = "none";
-  });
-  const target = document.getElementById(id);
-  if (target) target.style.display = "block";
-  window.scrollTo(0, 0);
+function toggleTheme() {
+  document.body.classList.toggle("dark-theme");
 }
