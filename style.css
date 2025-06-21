@@ -1,0 +1,55 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background-color: #f4f4f4;
+  color: #222;
+  transition: all 0.3s ease;
+}
+.dark-theme {
+  background-color: #121212;
+  color: #eee;
+}
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  background-color: #222;
+  color: #fdd835;
+  padding: 1rem;
+}
+.brand {
+  font-weight: bold;
+}
+.theme-toggle, .logout-btn {
+  margin-left: 1rem;
+  padding: 0.5rem;
+  background: #444;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+.login-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.7rem 1.2rem;
+  background: #4cc9f0;
+  color: #000;
+  text-decoration: none;
+  border-radius: 5px;
+}
+.centered {
+  text-align: center;
+  margin-top: 5rem;
+}
+.tab-section {
+  margin: 2rem;
+}
+.account-panel {
+  background: #eee;
+  padding: 1rem;
+  text-align: center;
+  font-weight: bold;
+}
+.dark-theme .account-panel {
+  background: #1f1f2e;
+  color: #fdd835;
+}
