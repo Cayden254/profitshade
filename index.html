@@ -101,9 +101,145 @@
         </div>
       </div>
 
-      <!-- Custom Bot Builder -->
-<div class="tab-pane fade" id="botbuilder">
-  <h4 class="text-warning mb-3">🚀 Custom Deriv Bot Builder</h4>
+      <div class="section" id="custombot">
+  <div class="container mt-4">
+    <div class="row">
+      <!-- Analysis Panel -->
+      <div class="col-md-6 bg-dark text-light p-4 rounded">
+        <h5 class="text-warning">📊 Analysis Panel</h5>
+        <div class="mb-3">
+          <label class="form-label">Volatility Index</label>
+          <select id="volatility" class="form-select">
+            <option value="R_10">Volatility 10 Index</option>
+            <option value="R_25">Volatility 25 Index</option>
+            <option value="R_50">Volatility 50 Index</option>
+            <option value="R_75">Volatility 75 Index</option>
+            <option value="R_100">Volatility 100 Index</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Account Type</label>
+          <select id="account-type-toggle" class="form-select">
+            <option value="real">Real</option>
+            <option value="virtual">Demo</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Strategy</label>
+          <select id="strategy" class="form-select" onchange="renderContractOptions()">
+            <option value="evenodd">Even / Odd</option>
+            <option value="overunder">Over / Under</option>
+            <option value="matchesdiffers">Matches / Differs</option>
+            <option value="risefall">Rise / Fall</option>
+          </select>
+        </div>
+        <div id="prediction-group" class="mb-3" style="display:none">
+          <label class="form-label">Prediction Digit</label>
+          <input type="number" min="0" max="9" class="form-control" id="prediction" placeholder="e.g. 7" />
+        </div>
+        <div id="contract-options" class="d-flex gap-2 mb-3"></div>
+      </div>
+      <!-- Trading Controls Panel -->
+      <div class="col-md-6 bg-light text-dark p-4 rounded">
+        <h5 class="text-primary">🎮 Trade Settings</h5>
+        <div class="mb-2">
+          <label class="form-label">Stake Amount ($)</label>
+          <input type="number" id="stake" class="form-control" placeholder="e.g. 0.35" />
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Take Profit</label>
+          <input type="number" id="takeprofit" class="form-control" />
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Stop Loss</label>
+          <input type="number" id="stoploss" class="form-control" />
+        </div>
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" value="" id="martingaleCheck">
+          <label class="form-check-label" for="martingaleCheck">Enable Martingale</label>
+        </div>
+        <div id="martingale-settings" style="display:none">
+          <div class="mb-2">
+            <label>Multiplier</label>
+            <input type="number" id="multiplier" class="form-control" value="2" step="0.1" min="1.1" />
+          </div>
+          <div class="mb-2">
+            <label>Levels</label>
+            <input type="number" id="levels" class="form-control" value="3" min="1" />
+          </div>
+        </div>
+        <div class="d-grid gap-2 mt-4">
+          <button class="btn btn-success" onclick="startBot()">▶️ Start</button>
+          <button class="btn btn-warning" onclick="pauseBot()">⏸️ Pause</button>
+          <button class="btn btn-primary" onclick="resumeBot()">⏯️ Resume</button>
+          <button class="btn btn-danger" onclick="stopBot()">⏹️ Stop</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  // === UI Logic for Prediction and Contract Display ===
+  const renderContractOptions = () => {
+    const strategy = document.getElementById("strategy").value;
+    const predictionGroup = document.getElementById("prediction-group");
+    const contractOptions = document.getElementById("contract-options");
+    contractOptions.innerHTML = "";
+
+    let options = [];
+
+    if (strategy === "evenodd") {
+      predictionGroup.style.display = "none";
+      options = ["Even", "Odd"];
+    } else if (strategy === "overunder") {
+      predictionGroup.style.display = "block";
+      options = ["Over", "Under"];
+    } else if (strategy === "matchesdiffers") {
+      predictionGroup.style.display = "block";
+      options = ["Matches", "Differs"];
+    } else if (strategy === "risefall") {
+      predictionGroup.style.display = "none";
+      options = ["Rise", "Fall"];
+    }
+
+    for (let option of options) {
+      const btn = document.createElement("button");
+      btn.className = "btn btn-outline-primary";
+      btn.textContent = option;
+      btn.onclick = () => {
+        document.querySelectorAll("#contract-options button").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        btn.setAttribute("data-selected", "true");
+      };
+      contractOptions.appendChild(btn);
+    }
+  };
+
+  // === Martingale UI Toggle ===
+  document.getElementById("martingaleCheck").addEventListener("change", (e) => {
+    document.getElementById("martingale-settings").style.display = e.target.checked ? "block" : "none";
+  });
+
+  // Placeholders for bot actions
+  function startBot() {
+    alert("✅ Bot started");
+    // Add actual bot start logic with WebSocket here
+  }
+
+  function pauseBot() {
+    alert("⏸️ Bot paused");
+    // Pause logic
+  }
+
+  function resumeBot() {
+    alert("▶️ Bot resumed");
+    // Resume logic
+  }
+
+  function stopBot() {
+    alert("🛑 Bot stopped");
+    // Stop logic
+  }
 
   <!-- Strategy Tabs -->
   <ul class="nav nav-pills mb-3" id="strategyTabs">
