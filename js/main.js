@@ -1,99 +1,81 @@
-<<<<<<< HEAD
-// Handle Deriv OAuth Login
-const params = new URLSearchParams(window.location.search);
-const token = params.get("token");
-
-if (token) {
-  localStorage.setItem("deriv_token", token);
-  window.location.href = window.location.origin + window.location.pathname;
-}
-
-const savedToken = localStorage.getItem("deriv_token");
-
-if (savedToken) {
-  document.getElementById("tool-sections").style.display = "block";
-  document.getElementById("login-required").style.display = "none";
-
-  fetch("https://api.deriv.com/api/v1/authorize", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ authorize: savedToken })
-  })
-    .then(res => res.json())
-    .then(data => {
-      const acc = data.authorize;
-      document.getElementById("account-id").textContent = acc.loginid;
-      document.getElementById("account-balance").textContent = `$${acc.balance.toFixed(2)}`;
-      document.getElementById("account-type").textContent = acc.account_type === "virtual" ? "Demo" : "Real";
-    })
-    .catch(() => {
-      alert("Session expired. Please log in again.");
-      logout();
-    });
-}
-
-function loadBot(xmlPath) {
-  document.getElementById("botBuilderIframe").src = `https://app.deriv.com/bot?bot=${xmlPath}`;
-  document.getElementById("botbuilder").scrollIntoView({ behavior: "smooth" });
-}
-
-function logout() {
-  localStorage.removeItem("deriv_token");
-  window.location.reload();
-}
-
+// ✅ Theme Toggle System
 function toggleTheme() {
-  document.body.classList.toggle("dark-theme");
+  const body = document.body;
+  if (body.classList.contains("dark-theme")) {
+    body.classList.remove("dark-theme");
+    body.classList.add("light-theme");
+    localStorage.setItem("theme", "light");
+  } else {
+    body.classList.remove("light-theme");
+    body.classList.add("dark-theme");
+    localStorage.setItem("theme", "dark");
+  }
 }
-=======
-// Handle Deriv OAuth Login
-const params = new URLSearchParams(window.location.search);
-const token = params.get("token");
 
-if (token) {
-  localStorage.setItem("deriv_token", token);
-  window.location.href = window.location.origin + window.location.pathname;
-}
+// ✅ Load saved theme on page load
+document.addEventListener("DOMContentLoaded", () => {
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+    document.body.classList.remove("dark-theme", "light-theme");
+    document.body.classList.add(savedTheme);
+  }
 
-const savedToken = localStorage.getItem("deriv_token");
+  // ✅ Handle Deriv Token from URL
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get("token1") || params.get("token2") || params.get("token3");
 
-if (savedToken) {
-  document.getElementById("tool-sections").style.display = "block";
-  document.getElementById("login-required").style.display = "none";
+  if (token) {
+    localStorage.setItem("deriv_token", token);
+    window.location.href = window.location.origin + window.location.pathname;
+    return;
+  }
 
-  fetch("https://api.deriv.com/api/v1/authorize", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ authorize: savedToken })
-  })
-    .then(res => res.json())
-    .then(data => {
-      const acc = data.authorize;
-      document.getElementById("account-id").textContent = acc.loginid;
-      document.getElementById("account-balance").textContent = `$${acc.balance.toFixed(2)}`;
-      document.getElementById("account-type").textContent = acc.account_type === "virtual" ? "Demo" : "Real";
+  // ✅ Load Token from Storage
+  const savedToken = localStorage.getItem("deriv_token");
+
+  if (savedToken) {
+    document.getElementById("tool-sections").style.display = "block";
+    document.getElementById("login-required").style.display = "none";
+    document.getElementById("account-info").style.display = "block";
+
+    fetch("https://api.deriv.com/api/v1/authorize", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ authorize: savedToken })
     })
-    .catch(() => {
-      alert("Session expired. Please log in again.");
-      logout();
-    });
-}
+      .then(res => res.json())
+      .then(data => {
+        if (!data.authorize) throw new Error("Invalid token");
+        const acc = data.authorize;
+        document.getElementById("account-id").textContent = acc.loginid;
+        document.getElementById("account-balance").textContent = `$${acc.balance.toFixed(2)}`;
+        document.getElementById("account-type").textContent = acc.account_type === "virtual" ? "Demo" : "Real";
+      })
+      .catch(() => {
+        alert("❌ Authorization failed. Please log in again.");
+        logoutDeriv();
+      });
+  } else {
+    document.getElementById("tool-sections").style.display = "none";
+    document.getElementById("login-required").style.display = "block";
+    document.getElementById("account-info").style.display = "none";
+  }
+});
 
-function loadBot(xmlPath) {
-  document.getElementById("botBuilderIframe").src = `https://app.deriv.com/bot?bot=${xmlPath}`;
-  document.getElementById("botbuilder").scrollIntoView({ behavior: "smooth" });
-}
-
-function logout() {
+// ✅ Logout Function
+function logoutDeriv() {
   localStorage.removeItem("deriv_token");
-  window.location.reload();
+  location.reload();
 }
 
-function toggleTheme() {
-  document.body.classList.toggle("dark-theme");
+// ✅ Section Switching (optional for SPA logic)
+function showSection(id) {
+  document.querySelectorAll(".section").forEach(section => {
+    section.style.display = "none";
+  });
+  const target = document.getElementById(id);
+  if (target) target.style.display = "block";
+  window.scrollTo(0, 0);
 }
->>>>>>> f78250b5584aaa7b19aff14d3456d3ac665dee04
