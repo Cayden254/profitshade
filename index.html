@@ -3,26 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ProfitShade FX</title>
-  <link rel="stylesheet" href="css/style.css"/>
+  <title>ProfitShade FX - Trade Smart, Profit Sharp</title>
+  <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 </head>
 <body class="light-theme">
+
+  <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
-    <a class="navbar-brand text-warning" href="#">PROFITSHADE_FX</a>
-    <div class="ms-auto d-flex align-items-center">
-      <span id="account-info" class="text-light me-4 d-none">
+    <a class="navbar-brand text-warning fw-bold" href="#">PROFITSHADE_FX</a>
+    <div class="ms-auto d-flex align-items-center gap-3">
+      <div id="account-info" class="text-light d-none">
         💼 <span id="account-id"></span> |
         💰 <span id="account-balance"></span> |
-        <span id="account-type"></span>
-      </span>
-      <button onclick="toggleTheme()" class="btn btn-sm btn-outline-light me-2">🌗</button>
-      <a href="#" id="login-btn" class="btn btn-warning btn-sm me-2">Login / Sign Up</a>
+        <button id="account-type-btn" class="btn btn-sm btn-outline-light dropdown-toggle" data-bs-toggle="dropdown">
+          Account
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#" onclick="switchAccountType('real')">Real Account</a></li>
+          <li><a class="dropdown-item" href="#" onclick="switchAccountType('virtual')">Demo Account</a></li>
+        </ul>
+      </div>
+      <button onclick="toggleTheme()" class="btn btn-sm btn-outline-light">🌗</button>
+      <a href="#" id="login-btn" class="btn btn-warning btn-sm">Login / Sign Up</a>
       <button onclick="logout()" id="logout-btn" class="btn btn-danger btn-sm d-none">Logout</button>
     </div>
   </nav>
 
+  <!-- Tabs -->
   <div class="container mt-4">
     <ul class="nav nav-tabs mb-4" id="tabLinks">
       <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#freebots">Free Bots</button></li>
@@ -31,61 +40,39 @@
       <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#botbuilder">Bot Builder</button></li>
     </ul>
 
-   <div class="tab-content">
-      <!-- Free Bots -->
+    <div class="tab-content">
+      <!-- Free Bots Tab -->
       <div class="tab-pane fade show active" id="freebots">
         <h4 class="text-warning mb-3">🧠 Select a Bot</h4>
         <div class="row">
-          <div class="col-md-4 mb-3"><button class="btn btn-outline-warning w-100" onclick="loadBot('bots/Killer-market-AI.xml')">Killer Market AI</button></div>
-          <div class="col-md-4 mb-3"><button class="btn btn-outline-warning w-100" onclick="loadBot('bots/ARANETA-BOT.xml')">Araneta AI</button></div>
           <div class="col-md-4 mb-3"><button class="btn btn-outline-warning w-100" onclick="loadBot('bots/CMV-Pro.xml')">CMV Pro Bot</button></div>
-          <div class="col-md-4 mb-3"><button class="btn btn-outline-warning w-100" onclick="loadBot('bots/02R43-Pro.xml')">Over 2</button></div>
           <div class="col-md-4 mb-3"><button class="btn btn-outline-warning w-100" onclick="loadBot('bots/U7R56-Pro.xml')">Under 7</button></div>
-          <div class="col-md-4 mb-3"><button class="btn btn-outline-warning w-100" onclick="loadBot('bots/Trade_City_Bot_Version_2.0.xml')">Trade City Bot V2</button></div>
-          <div class="col-md-4 mb-3"><button class="btn btn-outline-warning w-100" onclick="loadBot('bots/Matches_Differs-Bot.xml')">Matches/Differs Bot</button></div>
-          <div class="col-md-4 mb-3"><button class="btn btn-outline-warning w-100" onclick="loadBot('bots/Digit-Hyper-Bot.xml')">Digit Hyper Bot</button></div>
+          <!-- Add more bots here if needed -->
         </div>
       </div>
 
-
-      <!-- Strategies -->
+      <!-- Strategies Tab -->
       <div class="tab-pane fade" id="strategies">
         <h4 class="text-warning mb-4">📘 Trading Strategies</h4>
+        <h5 class="text-info">🔢 Even Strategy</h5>
+        <p><strong>Criteria:</strong> Numbers (2, 4, 6, 8) ≥ 11.5%. Main: Vol 100. Entry: Wait for 4–5 odd hits, then even hit.</p>
 
-        <h5 class="text-info">🔢 Even Strategy & Entry</h5>
-        <p>
-          <strong>Criteria:</strong> When numbers (2, 4, 6, 8) are 11.5%+, place an <strong>Even</strong> contract on any Volatility Index.<br>
-          <strong>Entry:</strong> Wait for 4–5 cursor hits on odd numbers, then run on even.
-        </p>
+        <h5 class="text-info">🔢 Odd Strategy</h5>
+        <p><strong>Criteria:</strong> Numbers (1, 3, 5, 7, 9) ≥ 11%. Main: Vol 75. Entry: Wait for 3–4 even hits, then odd hit.</p>
 
-        <h5 class="text-info">🔢 Odd Strategy & Entry</h5>
-        <p>
-          <strong>Criteria:</strong> When numbers (1, 3, 5, 7, 9) are 11%+, place an <strong>Odd</strong> contract.<br>
-          <strong>Entry:</strong> Wait for 3–4 even hits, then run on odd.
-        </p>
+        <h5 class="text-info">📈 Over/Under</h5>
+        <p><strong>Over 0/1:</strong> 1 tick. Green ≥ 10.5%, Red ≤ 9%. Cursor hit 0/1 before entry.<br>
+        <strong>Over 2:</strong> Digits 3–9 ≥ 10%. Last trade under 2 then entry on 0–2.</p>
 
-        <h5 class="text-info">📈 Over/Under Strategy</h5>
-        <p>
-          <strong>Over 0/1:</strong> Use 1 tick. Green bar ≥ 10.5%, red bar ≤ 9%.<br>
-          <strong>Entry:</strong> Hit 0/1 twice, then run bot.<br><br>
-          <strong>Over 2:</strong> Digits 3–9 ≥ 10%.<br>
-          <strong>Entry:</strong> If last trade ends Under 2, enter Over when cursor hits 0–2.
-        </p>
+        <h5 class="text-info">🎯 Matches/Differs</h5>
+        <p><strong>Digit Differs:</strong> Predict digit < 9%. Green bar < 12%. Ensure one hit before trade.</p>
 
-        <h5 class="text-info">🎯 Matches & Differs Strategy</h5>
-        <p>
-          <strong>Digit Differs:</strong> Use 1 tick. Predict digit with < 9%, Green bar < 12%.<br>
-          <strong>Entry:</strong> Wait until the predicted number appears once, then enter.
-        </p>
-
-        <h5 class="text-info">📉 Rise and Fall</h5>
-        <p>
-          <strong>Rise:</strong> Wait for confirmation on moving average + pullback near support.<br>
-          <strong>Fall:</strong> Confirm resistance then sell. Use stop-loss just above resistance.
-        </p>
+        <h5 class="text-info">📉 Rise/Fall</h5>
+        <p><strong>Rise:</strong> Use MA + trend. Confirm up move. Entry: Pullback on support. SL: below support.<br>
+        <strong>Fall:</strong> Use MA + trend. Confirm down move. Entry: Bounce on resistance. SL: above resistance.</p>
       </div>
 
-      <!-- Risk Calculator -->
+      <!-- Risk Calculator Tab -->
       <div class="tab-pane fade" id="risk">
         <h4 class="text-warning mb-3">📉 Martingale Risk Calculator</h4>
         <form oninput="calcMartingale()">
@@ -101,218 +88,16 @@
         </div>
       </div>
 
-      <div class="section" id="custombot">
-  <div class="container mt-4">
-    <div class="row">
-      <!-- Analysis Panel -->
-      <div class="col-md-6 bg-dark text-light p-4 rounded">
-        <h5 class="text-warning">📊 Analysis Panel</h5>
-        <div class="mb-3">
-          <label class="form-label">Volatility Index</label>
-          <select id="volatility" class="form-select">
-            <option value="R_10">Volatility 10 Index</option>
-            <option value="R_25">Volatility 25 Index</option>
-            <option value="R_50">Volatility 50 Index</option>
-            <option value="R_75">Volatility 75 Index</option>
-            <option value="R_100">Volatility 100 Index</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Account Type</label>
-          <select id="account-type-toggle" class="form-select">
-            <option value="real">Real</option>
-            <option value="virtual">Demo</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Strategy</label>
-          <select id="strategy" class="form-select" onchange="renderContractOptions()">
-            <option value="evenodd">Even / Odd</option>
-            <option value="overunder">Over / Under</option>
-            <option value="matchesdiffers">Matches / Differs</option>
-            <option value="risefall">Rise / Fall</option>
-          </select>
-        </div>
-        <div id="prediction-group" class="mb-3" style="display:none">
-          <label class="form-label">Prediction Digit</label>
-          <input type="number" min="0" max="9" class="form-control" id="prediction" placeholder="e.g. 7" />
-        </div>
-        <div id="contract-options" class="d-flex gap-2 mb-3"></div>
-      </div>
-      <!-- Trading Controls Panel -->
-      <div class="col-md-6 bg-light text-dark p-4 rounded">
-        <h5 class="text-primary">🎮 Trade Settings</h5>
-        <div class="mb-2">
-          <label class="form-label">Stake Amount ($)</label>
-          <input type="number" id="stake" class="form-control" placeholder="e.g. 0.35" />
-        </div>
-        <div class="mb-2">
-          <label class="form-label">Take Profit</label>
-          <input type="number" id="takeprofit" class="form-control" />
-        </div>
-        <div class="mb-2">
-          <label class="form-label">Stop Loss</label>
-          <input type="number" id="stoploss" class="form-control" />
-        </div>
-        <div class="form-check mb-2">
-          <input class="form-check-input" type="checkbox" value="" id="martingaleCheck">
-          <label class="form-check-label" for="martingaleCheck">Enable Martingale</label>
-        </div>
-        <div id="martingale-settings" style="display:none">
-          <div class="mb-2">
-            <label>Multiplier</label>
-            <input type="number" id="multiplier" class="form-control" value="2" step="0.1" min="1.1" />
-          </div>
-          <div class="mb-2">
-            <label>Levels</label>
-            <input type="number" id="levels" class="form-control" value="3" min="1" />
-          </div>
-        </div>
-        <div class="d-grid gap-2 mt-4">
-          <button class="btn btn-success" onclick="startBot()">▶️ Start</button>
-          <button class="btn btn-warning" onclick="pauseBot()">⏸️ Pause</button>
-          <button class="btn btn-primary" onclick="resumeBot()">⏯️ Resume</button>
-          <button class="btn btn-danger" onclick="stopBot()">⏹️ Stop</button>
-        </div>
+      <!-- Bot Builder Tab -->
+      <div class="tab-pane fade" id="botbuilder">
+        <h4 class="text-warning mb-3">🚀 Deriv Bot Builder</h4>
+        <p class="text-light">Please log in to Deriv to use the bot builder.</p>
+        <iframe id="botBuilderIframe" src="https://app.deriv.com/bot" width="100%" height="600" style="border: 1px solid #444;"></iframe>
       </div>
     </div>
   </div>
-</div>
-<script>
-  // === UI Logic for Prediction and Contract Display ===
-  const renderContractOptions = () => {
-    const strategy = document.getElementById("strategy").value;
-    const predictionGroup = document.getElementById("prediction-group");
-    const contractOptions = document.getElementById("contract-options");
-    contractOptions.innerHTML = "";
 
-    let options = [];
-
-    if (strategy === "evenodd") {
-      predictionGroup.style.display = "none";
-      options = ["Even", "Odd"];
-    } else if (strategy === "overunder") {
-      predictionGroup.style.display = "block";
-      options = ["Over", "Under"];
-    } else if (strategy === "matchesdiffers") {
-      predictionGroup.style.display = "block";
-      options = ["Matches", "Differs"];
-    } else if (strategy === "risefall") {
-      predictionGroup.style.display = "none";
-      options = ["Rise", "Fall"];
-    }
-
-    for (let option of options) {
-      const btn = document.createElement("button");
-      btn.className = "btn btn-outline-primary";
-      btn.textContent = option;
-      btn.onclick = () => {
-        document.querySelectorAll("#contract-options button").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        btn.setAttribute("data-selected", "true");
-      };
-      contractOptions.appendChild(btn);
-    }
-  };
-
-  // === Martingale UI Toggle ===
-  document.getElementById("martingaleCheck").addEventListener("change", (e) => {
-    document.getElementById("martingale-settings").style.display = e.target.checked ? "block" : "none";
-  });
-
-  // Placeholders for bot actions
-  function startBot() {
-    alert("✅ Bot started");
-    // Add actual bot start logic with WebSocket here
-  }
-
-  function pauseBot() {
-    alert("⏸️ Bot paused");
-    // Pause logic
-  }
-
-  function resumeBot() {
-    alert("▶️ Bot resumed");
-    // Resume logic
-  }
-
-  function stopBot() {
-    alert("🛑 Bot stopped");
-    // Stop logic
-  }
-
-  <!-- Strategy Tabs -->
-  <ul class="nav nav-pills mb-3" id="strategyTabs">
-    <li class="nav-item"><button class="nav-link active" data-strategy="evenodd">Even/Odd</button></li>
-    <li class="nav-item"><button class="nav-link" data-strategy="overunder">Over/Under</button></li>
-    <li class="nav-item"><button class="nav-link" data-strategy="risefall">Rise/Fall</button></li>
-    <li class="nav-item"><button class="nav-link" data-strategy="matchesdiffers">Matches/Differs</button></li>
-  </ul>
-
-  <!-- Strategy Panel -->
-  <div class="card bg-dark text-light p-3">
-    <div class="row mb-3">
-      <div class="col-md-4">
-        <label>Volatility Index</label>
-        <select id="market" class="form-select">
-          <option value="R_10">Volatility 10</option>
-          <option value="R_25">Volatility 25</option>
-          <option value="R_50">Volatility 50</option>
-          <option value="R_75">Volatility 75</option>
-          <option value="R_100" selected>Volatility 100</option>
-        </select>
-      </div>
-      <div class="col-md-4">
-        <label>Stake ($)</label>
-        <input type="number" id="stake" class="form-control" value="0.35" step="0.01">
-      </div>
-      <div class="col-md-4">
-        <label>Ticks</label>
-        <input type="number" id="duration" class="form-control" value="1" min="1">
-      </div>
-    </div>
-
-    <!-- Prediction (For Matches/Differs or Over/Under) -->
-    <div class="row mb-3" id="prediction-row" style="display: none;">
-      <div class="col-md-4">
-        <label>Prediction</label>
-        <input type="number" id="prediction" class="form-control" min="0" max="9">
-      </div>
-    </div>
-
-    <!-- Martingale -->
-    <div class="form-check form-switch mb-3">
-      <input class="form-check-input" type="checkbox" id="useMartingale">
-      <label class="form-check-label" for="useMartingale">Use Martingale</label>
-    </div>
-    <div class="row mb-3" id="martingale-settings" style="display: none;">
-      <div class="col-md-4">
-        <label>Multiplier</label>
-        <input type="number" id="multiplier" class="form-control" value="2" step="0.1">
-      </div>
-      <div class="col-md-4">
-        <label>Stop Loss ($)</label>
-        <input type="number" id="stoploss" class="form-control">
-      </div>
-      <div class="col-md-4">
-        <label>Take Profit ($)</label>
-        <input type="number" id="takeprofit" class="form-control">
-      </div>
-    </div>
-
-    <!-- Controls -->
-    <div class="d-flex justify-content-center gap-3 mt-3">
-      <button id="startBot" class="btn btn-success">▶️ Start</button>
-      <button id="pauseBot" class="btn btn-warning">⏸ Pause</button>
-      <button id="resumeBot" class="btn btn-primary">🔁 Resume</button>
-      <button id="stopBot" class="btn btn-danger">🛑 Stop</button>
-    </div>
-
-    <div class="mt-3 alert alert-info" id="botStatus">Bot status: <strong>Idle</strong></div>
-  </div>
-</div>
-
-
+  <!-- Scripts -->
   <script src="js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
