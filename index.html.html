@@ -1,108 +1,442 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ProfitShade FX - Trade Smart, Profit Sharp</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <style>
-    body {
-      background-color: #1e0d0d;
-      color: #f0f0f0;
-      font-family: 'Segoe UI', sans-serif;
-    }
-    .navbar {
-      background-color: #1f1f2e;
-    }
-    .nav-link, .navbar-brand {
-      color: #fdd835;
-    }
-    .nav-link:hover {
-      color: #ffffff;
-    }
-    .section {
-      padding: 60px 20px;
-    }
-    .btn-primary {
-      background-color: #6a1b9a;
-      border: none;
-    }
-    footer {
-      background-color: #1f1f2e;
-      color: #aaa;
-      padding: 20px 0;
-      text-align: center;
-    }
-    footer a {
-      color: #fdd835;
-      text-decoration: none;
-    }
-    footer a:hover {
-      text-decoration: underline;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Under Maintenance | Exciting Updates Coming Soon</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f72585;
+        }
+
+        /* Modern CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Main Styles */
+        body {
+            font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--dark);
+            line-height: 1.6;
+            overflow: hidden;
+        }
+
+        .maintenance-container {
+            text-align: center;
+            max-width: 650px;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+            animation: fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .maintenance-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(67, 97, 238, 0.1) 0%, transparent 70%);
+            z-index: -1;
+            animation: rotate 20s linear infinite;
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.15rem;
+            color: #555;
+        }
+
+        .icon-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+        }
+
+        .main-icon {
+            font-size: 5rem;
+            color: var(--primary);
+            position: relative;
+            z-index: 2;
+            animation: bounce 2s ease infinite;
+        }
+
+        .icon-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(67, 97, 238, 0.1);
+            border-radius: 50%;
+            z-index: 1;
+            animation: pulse 3s ease infinite;
+        }
+
+        .progress-container {
+            width: 100%;
+            background: #e9ecef;
+            border-radius: 10px;
+            margin: 2.5rem 0;
+            height: 12px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            transition: width 0.5s ease;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.6) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            animation: shimmer 2s infinite;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .countdown-item {
+            background: white;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            min-width: 70px;
+        }
+
+        .countdown-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .countdown-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6c757d;
+            margin-top: 0.3rem;
+        }
+
+        .status-message {
+            font-weight: 600;
+            margin: 1rem 0;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .contact {
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            color: #6c757d;
+        }
+
+        .contact a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .contact a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: white;
+            color: var(--primary);
+            border-radius: 50%;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px);
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 8px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        /* Background elements */
+        .bg-element {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 1;
+        }
+
+        .bg-1 {
+            width: 300px;
+            height: 300px;
+            background: var(--primary);
+            top: -150px;
+            right: -150px;
+        }
+
+        .bg-2 {
+            width: 200px;
+            height: 200px;
+            background: var(--accent);
+            bottom: -100px;
+            left: -100px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.1); opacity: 0.3; }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .maintenance-container {
+                margin: 1.5rem;
+                padding: 2rem;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .icon-container {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .main-icon {
+                font-size: 4rem;
+            }
+            
+            .countdown {
+                gap: 0.5rem;
+                flex-wrap: wrap;
+            }
+            
+            .countdown-item {
+                min-width: 60px;
+                padding: 0.6rem 0.8rem;
+            }
+            
+            .countdown-value {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
-
 <body>
-  <nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">PROFITSHADE_FX</a>
-      <div class="collapse navbar-collapse">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('freebots')">Free Bots</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('dashboard')">Dashboard</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('botbuilder')">Bot Builder</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('analysis')">Analysis Tools</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('dtrader')">D-Trader</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('signals')">Signals</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('charts')">Charts</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('copytrading')">Copy Trading</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('profitprime')">Profit Prime</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('contact')">Contact</a></li>
-        </ul>
-        <a href="https://oauth.deriv.com/oauth2/authorize?app_id=82139&redirect_uri=https://profitshade.vercel.app" class="btn btn-primary ms-3">Login</a>
-      </div>
+    <div class="bg-element bg-1"></div>
+    <div class="bg-element bg-2"></div>
+    
+    <div class="maintenance-container">
+        <div class="icon-container">
+            <div class="icon-bg"></div>
+            <i class="fas fa-tools main-icon"></i>
+        </div>
+        
+        <h1>Under Maintenance</h1>
+        <p>We're performing scheduled maintenance to bring you an improved experience.</p>
+        <p>Our team is working diligently to complete the updates as quickly as possible.</p>
+        
+        <div class="status-message" id="statusMessage">Estimated completion:</div>
+        
+        <div class="countdown">
+            <div class="countdown-item">
+                <div class="countdown-value" id="days">00</div>
+                <div class="countdown-label">Days</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-value" id="hours">00</div>
+                <div class="countdown-label">Hours</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-value" id="minutes">00</div>
+                <div class="countdown-label">Minutes</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-value" id="seconds">00</div>
+                <div class="countdown-label">Seconds</div>
+            </div>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <p class="contact">Need immediate assistance? <br>Email us at <a href="mailto:binarytoolsite@gmail.com">support@dbtraders.com</a></p>
+        
+        <div class="social-links">
+            <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
     </div>
-  </nav>
 
-  <div id="login-required" class="section text-center">
-    <h2 class="text-warning">🔐 Please Login</h2>
-    <p class="text-light">You need to log in to access ProfitShade tools.</p>
-    <a href="https://oauth.deriv.com/oauth2/authorize?app_id=82139&redirect_uri=https://profitshade.vercel.app" class="btn btn-success">Login with Deriv</a>
-  </div>
+    <script>
+        // Set maintenance start date to yesterday at the same time
+        function getMaintenanceStartDate() {
+            const now = new Date();
+            const startDate = new Date(now);
+            startDate.setDate(now.getDate() - 1); // Set to yesterday
+            startDate.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), 0);
+            return startDate;
+        }
 
-  <div id="tool-sections" style="display: none;">
-    <section class="section" id="freebots">
-      <div class="container text-center">
-        <h2 class="text-warning">🧠 Free Bots Hub</h2>
-        <button class="btn btn-outline-warning" onclick="loadBot('bots/CMV-Pro.xml')">Load CMV Pro Bot</button>
-      </div>
-    </section>
+        // Set maintenance end date to upcoming Saturday at 11:59 PM
+        function getMaintenanceEndDate() {
+            const now = new Date();
+            const dayOfWeek = now.getDay(); // 0 = Sunday, 6 = Saturday
+            const daysUntilSaturday = dayOfWeek <= 5 ? (5 - dayOfWeek) : (5 + (7 - dayOfWeek));
+            
+            const endDate = new Date();
+            endDate.setDate(now.getDate() + daysUntilSaturday);
+            endDate.setHours(23, 59, 59, 0);
+            
+            return endDate;
+        }
 
-    <section class="section" id="botbuilder">
-      <div class="container text-center">
-        <h2 class="text-warning">🚀 Deriv Bot Builder</h2>
-        <iframe id="botBuilderIframe" src="https://app.deriv.com/bot" width="100%" height="600" style="border: 1px solid #444; border-radius: 10px;"></iframe>
-      </div>
-    </section>
+        // Update countdown timer
+        function updateCountdown() {
+            const startDate = getMaintenanceStartDate();
+            const endDate = getMaintenanceEndDate();
+            const now = new Date();
+            
+            // Calculate time differences
+            const totalDuration = endDate - startDate;
+            const elapsed = now - startDate;
+            const remaining = endDate - now;
+            
+            if (remaining <= 0) {
+                // Maintenance completed
+                document.getElementById('statusMessage').textContent = 'Maintenance completed!';
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                document.getElementById('progressBar').style.width = '100%';
+                return;
+            }
+            
+            // Calculate time units
+            const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+            
+            // Update display
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            
+            // Update progress bar
+            const progressPercent = Math.min(100, Math.max(0, (elapsed / totalDuration) * 100));
+            document.getElementById('progressBar').style.width = progressPercent + '%';
+            
+            // Update status message based on remaining time
+            if (days > 1) {
+                document.getElementById('statusMessage').textContent = `Estimated completion: Saturday at 11:59 PM (${Math.round(progressPercent)}% complete)`;
+            } else if (days === 1) {
+                document.getElementById('statusMessage').textContent = `Estimated completion: Tomorrow at 11:59 PM (${Math.round(progressPercent)}% complete)`;
+            } else {
+                document.getElementById('statusMessage').textContent = `Estimated completion: Today at 11:59 PM (${Math.round(progressPercent)}% complete)`;
+            }
+        }
 
-    <section class="section" id="dashboard" style="display: none;">
-      <div class="container text-center">
-        <h2 class="text-warning">📊 Dashboard</h2>
-        <p>View your trading activity here.</p>
-      </div>
-    </section>
-  </div>
-
-  <footer>
-    <div class="container">
-      <p>© 2025 ProfitShade FX • Designed by Agustine • <a href="https://deriv.com/signup?sidc=F29079D3-31B8-4321-8A5B-0B13DBD26761" target="_blank">Join Deriv</a></p>
-    </div>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="js/main.js"></script>
+        // Initialize and update every second
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
 </body>
 </html>
