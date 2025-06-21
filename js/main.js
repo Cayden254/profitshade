@@ -32,7 +32,58 @@ function loadBot(botUrl) {
     alert("🔐 Please login first to load bots.");
     return;
   }
-  botIframe.src = `https://app.deriv.com/bot?bot=${botUrl}&token=${token}`;
+ // Handles contract type buttons and prediction display
+function renderContractOptions() {
+  const strategy = document.getElementById("strategy").value;
+  const predictionGroup = document.getElementById("prediction-group");
+  const contractOptions = document.getElementById("contract-options");
+  contractOptions.innerHTML = "";
+
+  const strategies = {
+    evenodd: ["Even", "Odd"],
+    overunder: ["Over", "Under"],
+    matchesdiffers: ["Matches", "Differs"],
+    risefall: ["Rise", "Fall"]
+  };
+
+  const needsPrediction = strategy === "overunder" || strategy === "matchesdiffers";
+  predictionGroup.style.display = needsPrediction ? "block" : "none";
+
+  for (let type of strategies[strategy]) {
+    const btn = document.createElement("button");
+    btn.className = "btn btn-outline-primary";
+    btn.textContent = type;
+    btn.onclick = () => {
+      document.querySelectorAll("#contract-options button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      btn.setAttribute("data-selected", "true");
+    };
+    contractOptions.appendChild(btn);
+  }
+}
+
+// Martingale section toggle
+document.getElementById("martingaleCheck").addEventListener("change", (e) => {
+  document.getElementById("martingale-settings").style.display = e.target.checked ? "block" : "none";
+});
+
+// Placeholder bot functions
+function startBot() {
+  alert("✅ Bot started with selected config.");
+}
+
+function pauseBot() {
+  alert("⏸️ Bot paused.");
+}
+
+function resumeBot() {
+  alert("▶️ Bot resumed.");
+}
+
+function stopBot() {
+  alert("🛑 Bot stopped.");
+}
+
   document.querySelector('[data-bs-target="#botbuilder"]').click();
   document.getElementById("botbuilder").scrollIntoView({ behavior: "smooth" });
 }
