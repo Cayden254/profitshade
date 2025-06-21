@@ -7,39 +7,45 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body class="dark-theme">
+  <!-- Navbar -->
   <nav class="navbar">
     <div class="container">
       <h1 class="brand">ProfitShade FX</h1>
       <div>
         <button onclick="toggleTheme()" class="theme-toggle">🌗</button>
-        <button id="logout" class="logout-btn" onclick="logout()">Logout</button>
+        <button id="logout" class="logout-btn" onclick="logoutDeriv()">Logout</button>
       </div>
     </div>
   </nav>
 
+  <!-- Login Prompt -->
   <div id="login-required" class="centered">
     <h2>🔐 Please Login to Access Tools</h2>
     <a href="https://oauth.deriv.com/oauth2/authorize?app_id=82139&redirect_uri=https://profitshade.vercel.app" class="login-btn">Login with Deriv</a>
   </div>
 
+  <!-- Tool Access Area -->
   <div id="tool-sections" style="display: none;">
     <section id="account-info" class="account-panel">
       <p>💼 Account: <span id="account-id"></span> | 💰 Balance: <span id="account-balance"></span> | Type: <span id="account-type"></span></p>
     </section>
 
+    <!-- Free Bots Section -->
     <section class="tab-section" id="freebots">
       <h2>🧠 Free Bots</h2>
       <button onclick="loadBot('bots/CMV-Pro.xml')">CMV Pro Bot</button>
       <button onclick="loadBot('bots/U7R56-Pro.xml')">Under 7</button>
     </section>
 
+    <!-- Deriv Bot Builder -->
     <section class="tab-section" id="botbuilder">
       <h2>🚀 Deriv Bot Builder</h2>
       <iframe id="botBuilderIframe" src="https://app.deriv.com/bot" width="100%" height="600" style="border: 1px solid #ccc;"></iframe>
     </section>
   </div>
 
+  <!-- Scripts -->
   <script src="js/main.js"></script>
 </body>
 </html>
