@@ -155,3 +155,79 @@ function showLoginUI() {
   document.getElementById("login-btn").style.display = "inline-block";
   document.getElementById("logout-btn").classList.add("d-none");
 }
+
+// ========= ANALYSIS PANEL LOGIC =========
+const analyzeBtn = document.getElementById("analyze-btn");
+const analysisOutput = document.getElementById("analysis-output");
+const loader = document.getElementById("analysis-loader");
+const synth = window.speechSynthesis;
+
+function fakeEncryptedStream() {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()-=+[]{}|<>?';
+  let stream = '';
+  for (let i = 0; i < 1000; i++) {
+    stream += characters.charAt(Math.floor(Math.random() * characters.length));
+    if (i % 80 === 0) stream += '\n';
+  }
+  return stream;
+}
+
+function futuristicSoundEffect() {
+  const audio = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-robotic-mechanical-notification-3052.mp3");
+  audio.volume = 0.5;
+  audio.play();
+}
+
+analyzeBtn?.addEventListener("click", () => {
+  const market = document.getElementById("volatility-select")?.value;
+  const strategy = document.getElementById("strategy-select")?.value;
+
+  if (!market || !strategy) {
+    alert("Please select both volatility and strategy.");
+    return;
+  }
+
+  // Start fake loading
+  analyzeBtn.disabled = true;
+  analyzeBtn.textContent = "Analyzing...";
+  analyzeBtn.classList.add("loading");
+  loader.style.display = "block";
+  loader.textContent = fakeEncryptedStream();
+  analysisOutput.innerHTML = "";
+
+  futuristicSoundEffect();
+
+  // Simulate AI analysis duration
+  setTimeout(() => {
+    analyzeBtn.disabled = false;
+    analyzeBtn.textContent = "Analyze Market";
+    analyzeBtn.classList.remove("loading");
+    loader.style.display = "none";
+
+    const result = generateSignal(market, strategy);
+    analysisOutput.innerHTML = result;
+
+    // Optional: voice output
+    // const utterance = new SpeechSynthesisUtterance(result);
+    // synth.speak(utterance);
+
+  }, 3500);
+});
+
+function generateSignal(market, strategy) {
+  const now = new Date();
+  const decision = Math.random() > 0.5 ? "✅ Opportunity detected" : "⚠️ No clear signal";
+
+  return `
+📊 Volatility Market: ${market}
+🧠 Strategy Used: ${strategy}
+
+📈 AI Observation: Market is ${Math.random() > 0.5 ? "consolidating" : "trending"}.
+🕐 Time: ${now.toLocaleTimeString()}
+
+🔎 Signal:
+${decision}
+
+📌 Note: This is AI-generated. Always confirm with live market behavior.
+`;
+}
