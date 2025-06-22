@@ -231,3 +231,51 @@ ${decision}
 📌 Note: This is AI-generated. Always confirm with live market behavior.
 `;
 }
+
+function startAnalysis() {
+  const vol = document.getElementById('vol-select').value;
+  const strategy = document.getElementById('strategy-select').value;
+  const analyzer = document.getElementById('analyzing');
+  const signalText = document.getElementById('ai-signal-text');
+  const resultPanel = document.getElementById('signal-result');
+  const output = document.getElementById('analyze-output');
+  const audio = document.getElementById('analyze-audio');
+
+  analyzer.style.display = 'block';
+  resultPanel.style.display = 'none';
+  output.textContent = '';
+  audio.play();
+
+  let i = 0;
+  const codes = [
+    "FETCHING PRICE STREAM...",
+    "ANALYZING STRATEGY...",
+    "SYNCING WITH DERIV FEED...",
+    "APPLYING AI MODEL TO PATTERNS...",
+    "SCANNING FOR ENTRIES...",
+    "OPTIMIZING SIGNALS..."
+  ];
+
+  const codeInterval = setInterval(() => {
+    if (i < codes.length) {
+      output.textContent += codes[i] + "\n";
+      output.scrollTop = output.scrollHeight;
+      i++;
+    } else {
+      clearInterval(codeInterval);
+      audio.pause();
+      output.textContent += "\n✔️ Analysis Complete!";
+      resultPanel.style.display = 'block';
+
+      // Simulate signal output
+      const strategyMessages = {
+        "even-odd": "💡 Trade Even on Volatility 100 - 1 Tick - Confidence 87%",
+        "over-under": "💡 Trade Over 2 on Vol 25 - High Accuracy Detected",
+        "rise-fall": "💡 Market Trending Up - Go for Rise with MA Strategy",
+        "matches-differs": "💡 Trade Differs from Digit 3 - Repetition Found"
+      };
+
+      signalText.textContent = strategyMessages[strategy] || "No signal available.";
+    }
+  }, 1200);
+}
