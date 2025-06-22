@@ -110,3 +110,76 @@ ul#stakeList {
 .dropdown-menu {
   font-size: 1.4rem;
 }
+
+/* Analysis & Signal Panel Styles */
+#ai-analysis {
+  background: var(--bg-secondary, #1e1e2f);
+  color: var(--text-light, #f8f9fa);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
+  margin-top: 2rem;
+}
+
+#ai-analysis h4 {
+  font-size: 1.8rem;
+  color: var(--primary, #ffc107);
+  margin-bottom: 1rem;
+}
+
+#ai-analysis select,
+#ai-analysis button {
+  margin-bottom: 1rem;
+}
+
+.analysis-output {
+  margin-top: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 8px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-y: auto;
+  max-height: 300px;
+}
+
+.analysis-loader {
+  display: none;
+  font-size: 1.1rem;
+  color: #00ffff;
+  margin-top: 1rem;
+  white-space: pre-line;
+  font-family: 'Source Code Pro', monospace;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  border-radius: 6px;
+  animation: flicker 1.5s infinite alternate;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.2; }
+  100% { opacity: 1; }
+}
+
+/* Button loading animation */
+#analyze-btn.loading::after {
+  content: ' ...';
+  animation: dots 1.5s steps(5, end) infinite;
+}
+
+@keyframes dots {
+  0%, 20% {
+    content: '';
+  }
+  40% {
+    content: '.';
+  }
+  60% {
+    content: '..';
+  }
+  80%, 100% {
+    content: '...';
+  }
+}
