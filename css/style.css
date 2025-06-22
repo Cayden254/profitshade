@@ -183,3 +183,57 @@ ul#stakeList {
     content: '...';
   }
 }
+
+/* ===== Analysis Panel Style ===== */
+#analysis-loader {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #0d0d0d;
+  border: 1px solid #0f0;
+  box-shadow: 0 0 10px #0f0;
+  color: #00ff00;
+  padding: 15px;
+  border-radius: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  animation: flicker 1.5s infinite alternate;
+  white-space: pre-wrap;
+}
+
+/* Results Panel */
+#analysis-output {
+  font-size: 1rem;
+  background: #1a1a1a;
+  color: #fff;
+  border: 1px solid #444;
+  padding: 15px;
+  border-radius: 6px;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.2);
+  font-family: 'Poppins', sans-serif;
+  display: none;
+}
+
+/* Button glow effect */
+#analyze-btn {
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+  transition: 0.3s ease-in-out;
+}
+
+#analyze-btn:hover {
+  box-shadow: 0 0 20px rgba(0, 123, 255, 0.9);
+  transform: scale(1.01);
+}
+
+/* Flicker animation for code effect */
+@keyframes flicker {
+  0% { opacity: 1; }
+  100% { opacity: 0.85; }
+}
+
+/* Smooth scroll in loader */
+#analysis-loader::-webkit-scrollbar {
+  width: 6px;
+}
+#analysis-loader::-webkit-scrollbar-thumb {
+  background: #00ff00;
+  border-radius: 3px;
+}
