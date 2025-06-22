@@ -49,6 +49,52 @@
       <div class="tab-pane fade" id="risk"></div>
       <div class="tab-pane fade" id="botbuilder"></div>
       <div class="tab-pane fade" id="signals"></div>
+      <!-- 🔍 Market Analysis Panel -->
+<div class="tab-pane fade" id="analysis" role="tabpanel">
+  <h4 class="text-warning mb-3">🔍 AI Market Analysis & Signal Panel</h4>
+
+  <div class="row mb-3">
+    <div class="col-md-6 mb-2">
+      <label class="form-label">📈 Select Volatility Market:</label>
+      <select id="volatility-select" class="form-select">
+        <option value="">-- Choose Market --</option>
+        <option value="Volatility 10 (1s) Index">Volatility 10 (1s)</option>
+        <option value="Volatility 10 Index">Volatility 10</option>
+        <option value="Volatility 25 (1s) Index">Volatility 25 (1s)</option>
+        <option value="Volatility 25 Index">Volatility 25</option>
+        <option value="Volatility 50 (1s) Index">Volatility 50 (1s)</option>
+        <option value="Volatility 50 Index">Volatility 50</option>
+        <option value="Volatility 100 (1s) Index">Volatility 100 (1s)</option>
+        <option value="Volatility 100 Index">Volatility 100</option>
+        <option value="Jump 10 Index">Jump 10</option>
+        <option value="Jump 25 Index">Jump 25</option>
+        <option value="Jump 50 Index">Jump 50</option>
+        <option value="Jump 75 Index">Jump 75</option>
+        <option value="Jump 100 Index">Jump 100</option>
+        <option value="Bear Market Index">Bear Market</option>
+        <option value="Bull Market Index">Bull Market</option>
+      </select>
+    </div>
+
+    <div class="col-md-6 mb-2">
+      <label class="form-label">📘 Select Strategy:</label>
+      <select id="strategy-select" class="form-select">
+        <option value="">-- Choose Strategy --</option>
+        <option value="Even/Odd">Even / Odd</option>
+        <option value="Over/Under">Over / Under</option>
+        <option value="Matches/Differs">Matches / Differs</option>
+        <option value="Rise/Fall">Rise / Fall</option>
+      </select>
+    </div>
+  </div>
+
+  <button id="analyze-btn" class="btn btn-primary w-100 mb-4">🔍 Analyze Market</button>
+
+  <pre id="analysis-loader" style="display: none; background: #000; color: #0f0; padding: 1rem; border-radius: 5px; font-size: 0.9rem; max-height: 250px; overflow-y: scroll;"></pre>
+
+  <div class="alert alert-dark" id="analysis-output" style="white-space: pre-line;"></div>
+</div>
+
       <div class="tab-pane fade" id="analysis"></div>
       <div class="tab-pane fade" id="profitprime"></div>
       <div class="tab-pane fade" id="contact"></div>
