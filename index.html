@@ -2,102 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ProfitShade FX - Trade Smart, Profit Sharp</title>
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
 </head>
 <body class="light-theme">
-
-  <!-- Navigation -->
+  <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
-    <a class="navbar-brand text-warning fw-bold" href="#">PROFITSHADE_FX</a>
-    <div class="ms-auto d-flex align-items-center gap-3">
-      <div id="account-info" class="text-light d-none">
+    <a class="navbar-brand text-warning" href="#">PROFITSHADE_FX</a>
+    <div class="ms-auto d-flex align-items-center">
+      <span id="account-info" class="text-light me-3 d-none">
         💼 <span id="account-id"></span> |
         💰 <span id="account-balance"></span> |
-        <button id="account-type-btn" class="btn btn-sm btn-outline-light dropdown-toggle" data-bs-toggle="dropdown">
-          Account
-        </button>
+        <button id="account-type" class="btn btn-sm btn-outline-light dropdown-toggle" data-bs-toggle="dropdown">Real</button>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#" onclick="switchAccountType('real')">Real Account</a></li>
-          <li><a class="dropdown-item" href="#" onclick="switchAccountType('virtual')">Demo Account</a></li>
+          <li><a class="dropdown-item" href="#" onclick="setAccountType('real')">Real</a></li>
+          <li><a class="dropdown-item" href="#" onclick="setAccountType('demo')">Demo</a></li>
         </ul>
-      </div>
-      <button onclick="toggleTheme()" class="btn btn-sm btn-outline-light">🌗</button>
-      <a href="#" id="login-btn" class="btn btn-warning btn-sm">Login / Sign Up</a>
+      </span>
+      <button onclick="toggleTheme()" class="btn btn-outline-light btn-sm me-2">🌗</button>
+      <a href="#" id="login-btn" class="btn btn-warning btn-sm me-2">Login / Sign Up</a>
       <button onclick="logout()" id="logout-btn" class="btn btn-danger btn-sm d-none">Logout</button>
     </div>
   </nav>
 
-  <!-- Tabs -->
   <div class="container mt-4">
-    <ul class="nav nav-tabs mb-4" id="tabLinks">
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-4" id="mainTabs">
       <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#freebots">Free Bots</button></li>
       <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#strategies">Strategies</button></li>
       <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#risk">Risk Calculator</button></li>
       <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#botbuilder">Bot Builder</button></li>
+      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#signals">Signals</button></li>
+      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#analysis">Market Analysis</button></li>
+      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#profitprime">Profit Prime</button></li>
+      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#contact">Contact</button></li>
     </ul>
 
-    <div class="tab-content">
-      <!-- Free Bots Tab -->
-      <div class="tab-pane fade show active" id="freebots">
-        <h4 class="text-warning mb-3">🧠 Select a Bot</h4>
-        <div class="row">
-          <div class="col-md-4 mb-3"><button class="btn btn-outline-warning w-100" onclick="loadBot('bots/CMV-Pro.xml')">CMV Pro Bot</button></div>
-          <div class="col-md-4 mb-3"><button class="btn btn-outline-warning w-100" onclick="loadBot('bots/U7R56-Pro.xml')">Under 7</button></div>
-          <!-- Add more bots here if needed -->
-        </div>
-      </div>
-
-      <!-- Strategies Tab -->
-      <div class="tab-pane fade" id="strategies">
-        <h4 class="text-warning mb-4">📘 Trading Strategies</h4>
-        <h5 class="text-info">🔢 Even Strategy</h5>
-        <p><strong>Criteria:</strong> Numbers (2, 4, 6, 8) ≥ 11.5%. Main: Vol 100. Entry: Wait for 4–5 odd hits, then even hit.</p>
-
-        <h5 class="text-info">🔢 Odd Strategy</h5>
-        <p><strong>Criteria:</strong> Numbers (1, 3, 5, 7, 9) ≥ 11%. Main: Vol 75. Entry: Wait for 3–4 even hits, then odd hit.</p>
-
-        <h5 class="text-info">📈 Over/Under</h5>
-        <p><strong>Over 0/1:</strong> 1 tick. Green ≥ 10.5%, Red ≤ 9%. Cursor hit 0/1 before entry.<br>
-        <strong>Over 2:</strong> Digits 3–9 ≥ 10%. Last trade under 2 then entry on 0–2.</p>
-
-        <h5 class="text-info">🎯 Matches/Differs</h5>
-        <p><strong>Digit Differs:</strong> Predict digit < 9%. Green bar < 12%. Ensure one hit before trade.</p>
-
-        <h5 class="text-info">📉 Rise/Fall</h5>
-        <p><strong>Rise:</strong> Use MA + trend. Confirm up move. Entry: Pullback on support. SL: below support.<br>
-        <strong>Fall:</strong> Use MA + trend. Confirm down move. Entry: Bounce on resistance. SL: above resistance.</p>
-      </div>
-
-      <!-- Risk Calculator Tab -->
-      <div class="tab-pane fade" id="risk">
-        <h4 class="text-warning mb-3">📉 Martingale Risk Calculator</h4>
-        <form oninput="calcMartingale()">
-          <div class="mb-3"><label>Total Capital ($)</label><input type="number" id="capital" class="form-control"></div>
-          <div class="mb-3"><label>Initial Stake ($)</label><input type="number" id="initial" class="form-control"></div>
-          <div class="mb-3"><label>Martingale Levels</label><input type="number" id="levels" class="form-control"></div>
-        </form>
-        <div class="alert alert-dark mt-3">
-          <ul id="stakeList" class="mb-0"></ul>
-          <hr>
-          Total Risk: <span id="totalRisk">$0.00</span><br>
-          Capital Remaining: <span id="remaining">$0.00</span>
-        </div>
-      </div>
-
-      <!-- Bot Builder Tab -->
-      <div class="tab-pane fade" id="botbuilder">
-        <h4 class="text-warning mb-3">🚀 Deriv Bot Builder</h4>
-        <p class="text-light">Please log in to Deriv to use the bot builder.</p>
-        <iframe id="botBuilderIframe" src="https://app.deriv.com/bot" width="100%" height="600" style="border: 1px solid #444;"></iframe>
-      </div>
+    <!-- Tab Contents -->
+    <div class="tab-content" id="mainTabsContent">
+      <!-- Sections (I'll fill these step-by-step next) -->
+      <div class="tab-pane fade show active" id="freebots"></div>
+      <div class="tab-pane fade" id="strategies"></div>
+      <div class="tab-pane fade" id="risk"></div>
+      <div class="tab-pane fade" id="botbuilder"></div>
+      <div class="tab-pane fade" id="signals"></div>
+      <div class="tab-pane fade" id="analysis"></div>
+      <div class="tab-pane fade" id="profitprime"></div>
+      <div class="tab-pane fade" id="contact"></div>
     </div>
   </div>
 
-  <!-- Scripts -->
   <script src="js/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
