@@ -54,7 +54,6 @@
       <div class="tab-pane fade" id="strategies"></div>
       <div class="tab-pane fade" id="risk"></div>
       <div class="tab-pane fade" id="botbuilder"></div>
-      <div class="tab-pane fade" id="signals"></div>
       <!-- 🔍 Market Analysis Panel -->
 <div class="tab-pane fade" id="analysis" role="tabpanel">
   <h4 class="text-warning mb-3">🔍 AI Market Analysis & Signal Panel</h4>
@@ -101,7 +100,54 @@
   <div class="alert alert-dark" id="analysis-output" style="white-space: pre-line;"></div>
 </div>
 
-      <div class="tab-pane fade" id="analysis"></div>
+      <!-- Signal & Analysis Panel -->
+<section class="tab-pane fade section" id="signal-analysis" role="tabpanel">
+  <div class="container text-center">
+    <h4 class="text-info mb-4">📡 AI Signal & Analysis Panel</h4>
+
+    <div class="mb-3">
+      <label for="vol-select" class="form-label">Choose Volatility Market:</label>
+      <select id="vol-select" class="form-select">
+        <option value="R_10">Volatility 10 Index</option>
+        <option value="R_25">Volatility 25 Index</option>
+        <option value="R_50">Volatility 50 Index</option>
+        <option value="R_75">Volatility 75 Index</option>
+        <option value="R_100">Volatility 100 Index</option>
+        <option value="R_10_1HZ">Volatility 10 (1s)</option>
+        <option value="R_25_1HZ">Volatility 25 (1s)</option>
+        <option value="R_50_1HZ">Volatility 50 (1s)</option>
+        <option value="R_100_1HZ">Volatility 100 (1s)</option>
+        <option value="JD10">Jump 10 Index</option>
+        <option value="JD100">Jump 100 Index</option>
+        <!-- Add more here -->
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="strategy-select" class="form-label">Select Strategy:</label>
+      <select id="strategy-select" class="form-select">
+        <option value="even-odd">Even/Odd</option>
+        <option value="over-under">Over/Under</option>
+        <option value="rise-fall">Rise/Fall</option>
+        <option value="matches-differs">Matches/Differs</option>
+      </select>
+    </div>
+
+    <button class="btn btn-primary mt-3" onclick="startAnalysis()">🔍 Start Analysis</button>
+
+    <div id="analyzing" class="mt-4" style="display: none;">
+      <pre id="analyze-output" class="code-effect"></pre>
+      <p class="text-muted">Analyzing... Please wait</p>
+      <audio id="analyze-audio" src="sounds/analyze.mp3" preload="auto"></audio>
+    </div>
+
+    <div id="signal-result" class="alert alert-info mt-4" style="display: none;">
+      <h5>📊 Suggested Trade Signal</h5>
+      <p id="ai-signal-text"></p>
+    </div>
+  </div>
+</section>
+
       <div class="tab-pane fade" id="profitprime"></div>
       <div class="tab-pane fade" id="contact"></div>
     </div>
