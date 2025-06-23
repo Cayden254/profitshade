@@ -1,101 +1,75 @@
-/* style.css - ProfitShade Custom Theme */
-
-/* Base glassmorphism and global tweaks */
 body {
-  background: linear-gradient(to bottom right, #1f2937, #111827);
-  color: #f9fafb;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to right, #1c1c1c, #2a2a2a);
+  color: #f1f1f1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
-/* Smooth transitions for UI elements */
-* {
-  transition: all 0.3s ease-in-out;
+input, button {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
 }
 
-/* Input fields */
-input[type="email"],
-input[type="password"] {
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #f3f4f6;
-}
-input:focus {
-  outline: none;
-  border-color: #3b82f6;
-  background-color: rgba(255, 255, 255, 0.08);
-}
-
-/* Buttons */
 button {
+  background: #00c6ff;
+  color: white;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+  transition: background 0.3s ease;
 }
 button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+  background: #0078a8;
 }
 
-/* Sidebar styling */
-#sidebar {
-  background-color: rgba(31, 41, 55, 0.95);
-  backdrop-filter: blur(12px);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-}
-#sidebar h2 {
-  color: #facc15;
-  font-weight: bold;
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  margin: 40px auto;
+  border-radius: 12px;
+  max-width: 400px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
 }
 
-/* Tab items */
+.hidden {
+  display: none;
+}
+
+.error {
+  color: #ff4d4f;
+  font-size: 14px;
+}
+
+#dashboard {
+  display: flex;
+  height: 100%;
+}
+
+#sidebar-tabs {
+  width: 200px;
+  background: #121212;
+  padding: 20px;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+}
+
 #sidebar-tabs button {
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
+  margin-bottom: 10px;
+  background: #222;
+  color: #fff;
+  border: none;
   padding: 10px;
+  border-radius: 8px;
   text-align: left;
-  color: #e5e7eb;
-  font-weight: 500;
+  transition: background 0.2s;
 }
 #sidebar-tabs button:hover {
-  background-color: rgba(59, 130, 246, 0.2);
-  color: #fff;
-}
-
-/* Main content area */
-#main-content {
-  background-color: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(10px);
-  border-left: 1px solid rgba(255, 255, 255, 0.05);
-  border-top-left-radius: 12px;
-  min-height: 100vh;
-}
-
-/* Glass card effect */
-.glass-card {
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 1.5rem;
-  color: #f9fafb;
-}
-
-/* Glow effect for key UI areas */
-.glow {
-  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
-}
-
-/* Utility classes */
-.text-glow {
-  text-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
-}
-.animated-button {
-  animation: pulse 1.6s infinite;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); box-shadow: 0 0 10px rgba(59, 130, 246, 0.4); }
-  50% { transform: scale(1.02); box-shadow: 0 0 20px rgba(59, 130, 246, 0.7); }
-  100% { transform: scale(1); box-shadow: 0 0 10px rgba(59, 130, 246, 0.4); }
+  background: #00c6ff;
 }
