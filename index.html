@@ -3,157 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ProfitShade FX - Trade Smart, Profit Sharp</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <title>ProfitShade Smart Trading Tool</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-<body class="light-theme">
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
-    <a class="navbar-brand text-warning" href="#">PROFITSHADE_FX</a>
-    <div class="ms-auto d-flex align-items-center">
-      <span id="account-info" class="text-light me-3 d-none">
-        💼 <span id="account-id"></span> |
-        💰 <span id="account-balance"></span> |
-        <button id="account-type" class="btn btn-sm btn-outline-light dropdown-toggle" data-bs-toggle="dropdown">Real</button>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#" onclick="setAccountType('real')">Real</a></li>
-          <li class="nav-item">
-  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#analysis" type="button">
-    AI Signals
-  </button>
-</li>
-
-          <li><a class="dropdown-item" href="#" onclick="setAccountType('demo')">Demo</a></li>
-        </ul>
-      </span>
-      <button onclick="toggleTheme()" class="btn btn-outline-light btn-sm me-2">🌗</button>
-      <a href="#" id="login-btn" class="btn btn-warning btn-sm me-2">Login / Sign Up</a>
-      <button onclick="logout()" id="logout-btn" class="btn btn-danger btn-sm d-none">Logout</button>
-    </div>
-  </nav>
-
-  <div class="container mt-4">
-    <!-- Tabs -->
-    <ul class="nav nav-tabs mb-4" id="mainTabs">
-      <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#freebots">Free Bots</button></li>
-      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#strategies">Strategies</button></li>
-      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#risk">Risk Calculator</button></li>
-      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#botbuilder">Bot Builder</button></li>
-      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#signals">Signals</button></li>
-      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#analysis">Market Analysis</button></li>
-      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#profitprime">Profit Prime</button></li>
-      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#contact">Contact</button></li>
-    </ul>
-
-    <!-- Tab Contents -->
-    <div class="tab-content" id="mainTabsContent">
-      <!-- Sections (I'll fill these step-by-step next) -->
-      <div class="tab-pane fade show active" id="freebots"></div>
-      <div class="tab-pane fade" id="strategies"></div>
-      <div class="tab-pane fade" id="risk"></div>
-      <div class="tab-pane fade" id="botbuilder"></div>
-      <!-- 🔍 Market Analysis Panel -->
-<div class="tab-pane fade" id="analysis" role="tabpanel">
-  <h4 class="text-warning mb-3">🔍 AI Market Analysis & Signal Panel</h4>
-
-  <div class="row mb-3">
-    <div class="col-md-6 mb-2">
-      <label class="form-label">📈 Select Volatility Market:</label>
-      <select id="volatility-select" class="form-select">
-        <option value="">-- Choose Market --</option>
-        <option value="Volatility 10 (1s) Index">Volatility 10 (1s)</option>
-        <option value="Volatility 10 Index">Volatility 10</option>
-        <option value="Volatility 25 (1s) Index">Volatility 25 (1s)</option>
-        <option value="Volatility 25 Index">Volatility 25</option>
-        <option value="Volatility 50 (1s) Index">Volatility 50 (1s)</option>
-        <option value="Volatility 50 Index">Volatility 50</option>
-        <option value="Volatility 100 (1s) Index">Volatility 100 (1s)</option>
-        <option value="Volatility 100 Index">Volatility 100</option>
-        <option value="Jump 10 Index">Jump 10</option>
-        <option value="Jump 25 Index">Jump 25</option>
-        <option value="Jump 50 Index">Jump 50</option>
-        <option value="Jump 75 Index">Jump 75</option>
-        <option value="Jump 100 Index">Jump 100</option>
-        <option value="Bear Market Index">Bear Market</option>
-        <option value="Bull Market Index">Bull Market</option>
-      </select>
-    </div>
-
-    <div class="col-md-6 mb-2">
-      <label class="form-label">📘 Select Strategy:</label>
-      <select id="strategy-select" class="form-select">
-        <option value="">-- Choose Strategy --</option>
-        <option value="Even/Odd">Even / Odd</option>
-        <option value="Over/Under">Over / Under</option>
-        <option value="Matches/Differs">Matches / Differs</option>
-        <option value="Rise/Fall">Rise / Fall</option>
-      </select>
+<body class="bg-gray-900 text-white font-sans">
+  <!-- Login Section -->
+  <div id="login-screen" class="flex items-center justify-center min-h-screen">
+    <div class="bg-white bg-opacity-10 backdrop-blur-md p-8 rounded-xl shadow-xl w-full max-w-md">
+      <h1 class="text-2xl font-bold mb-6 text-center">Login to ProfitShade</h1>
+      <input id="email" type="email" placeholder="Email" class="w-full mb-4 p-2 rounded bg-gray-700 placeholder-gray-400">
+      <input id="password" type="password" placeholder="Password" class="w-full mb-4 p-2 rounded bg-gray-700 placeholder-gray-400">
+      <button id="login-btn" class="w-full bg-blue-600 hover:bg-blue-700 p-2 rounded text-white font-bold transition">Login</button>
+      <p id="login-error" class="text-red-400 mt-4 text-sm hidden">Invalid credentials</p>
     </div>
   </div>
 
-  <button id="analyze-btn" class="btn btn-primary w-100 mb-4">🔍 Analyze Market</button>
+  <!-- Dashboard -->
+  <div id="dashboard" class="hidden min-h-screen">
+    <div class="flex">
+      <!-- Sidebar -->
+      <aside id="sidebar" class="w-64 bg-gray-800 p-4 space-y-4">
+        <h2 class="text-xl font-bold">ProfitShade</h2>
+        <div id="sidebar-tabs" class="space-y-2">
+          <!-- Dynamic tabs inserted by JS based on user role -->
+        </div>
+      </aside>
 
-  <pre id="analysis-loader" style="display: none; background: #000; color: #0f0; padding: 1rem; border-radius: 5px; font-size: 0.9rem; max-height: 250px; overflow-y: scroll;"></pre>
-
-  <div class="alert alert-dark" id="analysis-output" style="white-space: pre-line;"></div>
-</div>
-
-      <!-- Signal & Analysis Panel -->
-<section class="tab-pane fade section" id="signal-analysis" role="tabpanel">
-  <div class="container text-center">
-    <h4 class="text-info mb-4">📡 AI Signal & Analysis Panel</h4>
-
-    <div class="mb-3">
-      <label for="vol-select" class="form-label">Choose Volatility Market:</label>
-      <select id="vol-select" class="form-select">
-        <option value="R_10">Volatility 10 Index</option>
-        <option value="R_25">Volatility 25 Index</option>
-        <option value="R_50">Volatility 50 Index</option>
-        <option value="R_75">Volatility 75 Index</option>
-        <option value="R_100">Volatility 100 Index</option>
-        <option value="R_10_1HZ">Volatility 10 (1s)</option>
-        <option value="R_25_1HZ">Volatility 25 (1s)</option>
-        <option value="R_50_1HZ">Volatility 50 (1s)</option>
-        <option value="R_100_1HZ">Volatility 100 (1s)</option>
-        <option value="JD10">Jump 10 Index</option>
-        <option value="JD100">Jump 100 Index</option>
-        <!-- Add more here -->
-      </select>
-    </div>
-
-    <div class="mb-3">
-      <label for="strategy-select" class="form-label">Select Strategy:</label>
-      <select id="strategy-select" class="form-select">
-        <option value="even-odd">Even/Odd</option>
-        <option value="over-under">Over/Under</option>
-        <option value="rise-fall">Rise/Fall</option>
-        <option value="matches-differs">Matches/Differs</option>
-      </select>
-    </div>
-
-    <button class="btn btn-primary mt-3" onclick="startAnalysis()">🔍 Start Analysis</button>
-
-    <div id="analyzing" class="mt-4" style="display: none;">
-      <pre id="analyze-output" class="code-effect"></pre>
-      <p class="text-muted">Analyzing... Please wait</p>
-      <audio id="analyze-audio" src="sounds/analyze.mp3" preload="auto"></audio>
-    </div>
-
-    <div id="signal-result" class="alert alert-info mt-4" style="display: none;">
-      <h5>📊 Suggested Trade Signal</h5>
-      <p id="ai-signal-text"></p>
-    </div>
-  </div>
-</section>
-
-      <div class="tab-pane fade" id="profitprime"></div>
-      <div class="tab-pane fade" id="contact"></div>
+      <!-- Main Content Area -->
+      <main id="main-content" class="flex-1 p-6 overflow-y-auto">
+        <div id="tab-content" class="space-y-6">
+          <!-- Loaded via JS from components -->
+          <p class="text-center text-gray-400">Select a tab to get started.</p>
+        </div>
+      </main>
     </div>
   </div>
 
-  <script src="js/main.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="main.js" type="module"></script>
 </body>
 </html>
