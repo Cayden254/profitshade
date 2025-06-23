@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>ProfitShade</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>ProfitShade Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div id="login-screen">
-    <input id="email" type="email" placeholder="Email">
-    <input id="password" type="password" placeholder="Password">
-    <button id="login-btn">Login</button>
-    <p id="login-error" class="hidden">Invalid credentials</p>
+    <div class="glass-card">
+      <h2>Login</h2>
+      <input id="email" type="email" placeholder="Email" />
+      <input id="password" type="password" placeholder="Password" />
+      <button id="login-btn">Login</button>
+      <p id="login-error" class="hidden error">Invalid email or password</p>
+    </div>
   </div>
 
   <div id="dashboard" class="hidden">
-    <div id="sidebar-tabs"></div>
-    <div id="tab-content"></div>
+    <aside id="sidebar-tabs"></aside>
+    <main id="tab-content">
+      <div class="glass-card">Welcome to ProfitShade</div>
+    </main>
   </div>
 
   <script type="module" src="main.js"></script>
