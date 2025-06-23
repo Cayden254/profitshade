@@ -1,46 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ProfitShade Smart Trading Tool</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>ProfitShade</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-gray-900 text-white font-sans">
-  <!-- Login Section -->
-  <div id="login-screen" class="flex items-center justify-center min-h-screen">
-    <div class="bg-white bg-opacity-10 backdrop-blur-md p-8 rounded-xl shadow-xl w-full max-w-md">
-      <h1 class="text-2xl font-bold mb-6 text-center">Login to ProfitShade</h1>
-      <input id="email" type="email" placeholder="Email" class="w-full mb-4 p-2 rounded bg-gray-700 placeholder-gray-400">
-      <input id="password" type="password" placeholder="Password" class="w-full mb-4 p-2 rounded bg-gray-700 placeholder-gray-400">
-      <button id="login-btn" class="w-full bg-blue-600 hover:bg-blue-700 p-2 rounded text-white font-bold transition">Login</button>
-      <p id="login-error" class="text-red-400 mt-4 text-sm hidden">Invalid credentials</p>
-    </div>
+<body>
+  <div id="login-screen">
+    <input id="email" type="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
+    <button id="login-btn">Login</button>
+    <p id="login-error" class="hidden">Invalid credentials</p>
   </div>
 
-  <!-- Dashboard -->
-  <div id="dashboard" class="hidden min-h-screen">
-    <div class="flex">
-      <!-- Sidebar -->
-      <aside id="sidebar" class="w-64 bg-gray-800 p-4 space-y-4">
-        <h2 class="text-xl font-bold">ProfitShade</h2>
-        <div id="sidebar-tabs" class="space-y-2">
-          <!-- Dynamic tabs inserted by JS based on user role -->
-        </div>
-      </aside>
-
-      <!-- Main Content Area -->
-      <main id="main-content" class="flex-1 p-6 overflow-y-auto">
-        <div id="tab-content" class="space-y-6">
-          <!-- Loaded via JS from components -->
-          <p class="text-center text-gray-400">Select a tab to get started.</p>
-        </div>
-      </main>
-    </div>
+  <div id="dashboard" class="hidden">
+    <div id="sidebar-tabs"></div>
+    <div id="tab-content"></div>
   </div>
 
-  <script type="module" src="firebase-config.js"></script>
-  <script src="main.js" type="module"></script>
+  <script type="module" src="main.js"></script>
 </body>
 </html>
