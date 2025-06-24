@@ -1,85 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ProfitShade FX</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="/deriv-logo.svg" type="image/svg+xml" />
 </head>
+
 <body>
-  <header>
-    <h1>📈 ProfitShade FX - Trade Smart, Profit Sharp</h1>
-    <div id="account-info">🔒 Not connected</div>
-    <button onclick="loginToDerivPrompt()">🔗 Link Deriv Account</button>
-  </header>
-
-  <nav class="strategy-tabs">
-    <button onclick="showStrategy('evenodd')">Even / Odd</button>
-    <button onclick="showStrategy('overunder')">Over / Under</button>
-    <button onclick="showStrategy('matches')">Matches / Differs</button>
-    <button onclick="showStrategy('risefall')">Rise / Fall</button>
-    <button onclick="showRiskCalculator()">📊 Risk Calculator</button>
-  </nav>
-
-  <main id="strategy-content"></main>
-
-  <template id="strategy-template">
-    <div class="strategy-panel">
-      <h2 class="strategy-title"></h2>
-      <div class="controls">
-        <label>Volatility:
-          <select class="volatility-select">
-            <option value="R_10">Volatility 10 (1s)</option>
-            <option value="1HZ10V">Volatility 10</option>
-            <option value="R_25">Volatility 25 (1s)</option>
-            <option value="1HZ25V">Volatility 25</option>
-            <option value="R_50">Volatility 50 (1s)</option>
-            <option value="1HZ50V">Volatility 50</option>
-            <option value="R_100">Volatility 100 (1s)</option>
-            <option value="1HZ100V">Volatility 100</option>
-            <option value="JD10">Jump 10</option>
-            <option value="JD25">Jump 25</option>
-            <option value="JD50">Jump 50</option>
-            <option value="JD100">Jump 100</option>
-            <option value="BEAR">Bear Market</option>
-            <option value="BULL">Bull Market</option>
-          </select>
-        </label>
-
-        <label>Timeframe:
-          <select class="timeframe-select">
-            <option value="1">1s</option>
-            <option value="5" selected>5s</option>
-            <option value="10">10s</option>
-            <option value="15">15s</option>
-          </select>
-        </label>
+  <div class="app-container">
+    <header>
+      <div class="brand">
+        <img src="/deriv-logo.svg" class="logo" />
+        <h1>ProfitShade FX - Trade Smart, Profit Sharp</h1>
       </div>
+      <div class="auth-status">
+        <span id="connection-status">🔒 Not connected</span>
+        <button id="link-deriv">🔑 Link Deriv Account</button>
+      </div>
+    </header>
 
-      <section class="analysis">
-        <div class="bar-visual"></div>
-        <div class="circle-grid"></div>
-      </section>
+    <div class="main-content">
+      <aside class="sidebar">
+        <button class="tab-button" data-tab="even-odd">Even / Odd</button>
+        <button class="tab-button" data-tab="over-under">Over / Under</button>
+        <button class="tab-button" data-tab="matches-differs">Matches / Differs</button>
+        <button class="tab-button" data-tab="rise-fall">Rise / Fall</button>
+        <button class="tab-button" data-tab="risk-calculator">📊 Risk Calculator</button>
+      </aside>
 
-      <section class="execution">
-        <input class="stake-input" placeholder="Stake ($)" type="number" />
-        <input class="prediction-input" placeholder="Prediction Digit" type="number" />
-        <input class="ticks-input" placeholder="Ticks (e.g. 1, 2, 5)" type="number" />
-        <div class="contract-options"></div>
-        <button class="start-btn">▶️ Start Trades</button>
-        <button class="pause-btn">⏸ Pause</button>
-        <button class="stop-btn">⛔ Stop</button>
-        <div class="trade-summary"></div>
-        <table class="trade-log-table">
-          <thead>
-            <tr><th>Stake</th><th>Payout</th><th>Type</th><th>Entry</th><th>Exit</th></tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+      <section class="content-area">
+        <div id="even-odd" class="tab-content hidden"></div>
+        <div id="over-under" class="tab-content hidden"></div>
+        <div id="matches-differs" class="tab-content hidden"></div>
+        <div id="rise-fall" class="tab-content hidden"></div>
+        <div id="risk-calculator" class="tab-content hidden"></div>
       </section>
     </div>
-  </template>
+
+    <footer>
+      <p>Powered by Deriv API | Created by ProfitShade FX</p>
+    </footer>
+  </div>
 
   <script src="main.js"></script>
 </body>
+
 </html>
