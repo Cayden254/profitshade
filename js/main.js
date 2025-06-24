@@ -1,164 +1,120 @@
-// main.js - Fully Furnished WebSocket + Strategy Logic
+// main.js - ProfitShade Trading Logic (Even/Odd + Over/Under)
 
-const appId = 82139; // Deriv App ID
-const ws = new WebSocket("wss://ws.deriv.com/websockets/v3?app_id=" + appId);
-let token = "";
-let accountType = "real";
-let currentStrategy = null;
-let tradeActive = false;
-let tradePaused = false;
-let contractType = "";
-let volatility = "R_10";
-let marketData = {};
+const app_id = 82139;
+let ws;
+let active_tab = null;
+let auth_token = null;
+let account_type = "";
 
-// UI References
-const strategyContainer = document.getElementById("strategy-content");
-const template = document.getElementById("strategy-template");
-const accountInfo = document.getElementById("account-info");
+const connectionStatus = document.getElementById("connection-status");
+const linkBtn = document.getElementById("link-deriv");
+const tabButtons = document.querySelectorAll(".tab-button");
+const tabContents = document.querySelectorAll(".tab-content");
 
-function loginToDerivPrompt() {
-  const userToken = prompt("Paste your Deriv API Token:");
-  if (userToken) {
-    token = userToken;
+// Handle WebSocket authorization
+linkBtn.addEventListener("click", () => {
+  const token = prompt("Paste your Deriv token");
+  if (!token) return;
+  auth_token = token;
+  ws = new WebSocket("wss://ws.deriv.com/websockets/v3?app_id=" + app_id);
+
+  ws.onopen = () => {
     ws.send(JSON.stringify({ authorize: token }));
-  }
-}
-
-ws.onmessage = function (msg) {
-  const data = JSON.parse(msg.data);
-  if (data.msg_type === "authorize") {
-    accountInfo.textContent = `✔️ Logged in: ${data.authorize.loginid}`;
-    accountType = data.authorize.account_list[0].account_type;
-  }
-  if (data.msg_type === "balance") {
-    document.querySelector(".trade-summary").textContent = `💰 Balance: $${data.balance.balance}`;
-  }
-  if (data.msg_type === "proposal") {
-    handleProposal(data);
-  }
-};
-
-function showStrategy(type) {
-  strategyContainer.innerHTML = "";
-  const clone = template.content.cloneNode(true);
-  currentStrategy = type;
-
-  clone.querySelector(".strategy-title").textContent = type.toUpperCase();
-  const volSelect = clone.querySelector(".volatility-select");
-  const tfSelect = clone.querySelector(".timeframe-select");
-
-  volSelect.addEventListener("change", () => {
-    volatility = volSelect.value;
-    refreshAnalysis(clone);
-  });
-
-  tfSelect.addEventListener("change", () => refreshAnalysis(clone));
-
-  clone.querySelector(".start-btn").onclick = () => startTrading(clone);
-  clone.querySelector(".pause-btn").onclick = () => (tradePaused = !tradePaused);
-  clone.querySelector(".stop-btn").onclick = () => stopTrading();
-
-  const overBtn = document.createElement("button");
-  overBtn.textContent = "OVER";
-  overBtn.onclick = () => (contractType = "DIGITOVER");
-
-  const underBtn = document.createElement("button");
-  underBtn.textContent = "UNDER";
-  underBtn.onclick = () => (contractType = "DIGITUNDER");
-
-  const evenBtn = document.createElement("button");
-  evenBtn.textContent = "EVEN";
-  evenBtn.onclick = () => (contractType = "DIGITEVEN");
-
-  const oddBtn = document.createElement("button");
-  oddBtn.textContent = "ODD";
-  oddBtn.onclick = () => (contractType = "DIGITODD");
-
-  const riseBtn = document.createElement("button");
-  riseBtn.textContent = "RISE";
-  riseBtn.onclick = () => (contractType = "RISE");
-
-  const fallBtn = document.createElement("button");
-  fallBtn.textContent = "FALL";
-  fallBtn.onclick = () => (contractType = "FALL");
-
-  const optionsDiv = clone.querySelector(".contract-options");
-  if (type === "evenodd") optionsDiv.append(evenBtn, oddBtn);
-  if (type === "overunder") optionsDiv.append(overBtn, underBtn);
-  if (type === "risefall") optionsDiv.append(riseBtn, fallBtn);
-
-  strategyContainer.appendChild(clone);
-  refreshAnalysis(clone);
-}
-
-function refreshAnalysis(panel) {
-  const bars = panel.querySelector(".bar-visual");
-  const circles = panel.querySelector(".circle-grid");
-  bars.innerHTML = "";
-  circles.innerHTML = "";
-
-  for (let i = 0; i <= 9; i++) {
-    const bar = document.createElement("div");
-    const height = Math.floor(Math.random() * 100);
-    bar.style.height = height + "px";
-    bar.style.background = i % 2 === 0 ? "#22c55e" : "#ef4444";
-    bar.textContent = i;
-    bars.appendChild(bar);
-
-    const circle = document.createElement("div");
-    circle.style.background = height > 70 ? "#22c55e" : height < 30 ? "#ef4444" : "#334155";
-    circle.style.width = circle.style.height = "40px";
-    circle.style.borderRadius = "50%";
-    circle.textContent = i;
-    circles.appendChild(circle);
-  }
-}
-
-function startTrading(panel) {
-  const stake = parseFloat(panel.querySelector(".stake-input").value);
-  const pred = panel.querySelector(".prediction-input").value;
-  const ticks = parseInt(panel.querySelector(".ticks-input").value);
-  if (!contractType || isNaN(stake) || isNaN(ticks)) return alert("⚠️ Missing input");
-
-  tradeActive = true;
-  tradePaused = false;
-
-  const proposal = {
-    proposal: 1,
-    amount: stake,
-    basis: "stake",
-    contract_type: contractType,
-    currency: "USD",
-    duration: ticks,
-    duration_unit: "t",
-    symbol: volatility,
-    ...(pred && { barrier: pred })
   };
-  ws.send(JSON.stringify(proposal));
+
+  ws.onmessage = (msg) => {
+    const data = JSON.parse(msg.data);
+    if (data.msg_type === "authorize") {
+      connectionStatus.textContent = `✅ Connected as ${data.authorize.loginid}`;
+      account_type = data.authorize.loginid.includes("VRTC") ? "demo" : "real";
+    }
+  };
+});
+
+// Handle tab switching
+function switchTab(tabId) {
+  tabContents.forEach((tab) => tab.classList.add("hidden"));
+  tabButtons.forEach((btn) => btn.classList.remove("active"));
+  document.getElementById(tabId).classList.remove("hidden");
+  document.querySelector(`.tab-button[data-tab='${tabId}']`).classList.add("active");
+  active_tab = tabId;
 }
 
-function stopTrading() {
-  tradeActive = false;
-  tradePaused = false;
-  alert("🚫 Trading Stopped");
+// Setup all tabs
+tabButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const target = btn.getAttribute("data-tab");
+    switchTab(target);
+    if (target === "even-odd") renderEvenOdd();
+    if (target === "over-under") renderOverUnder();
+  });
+});
+
+// Render Even/Odd panel
+function renderEvenOdd() {
+  const panel = document.getElementById("even-odd");
+  panel.innerHTML = `
+    <div class="strategy-wrapper">
+      <div class="analysis-section">
+        <h2>Even/Odd Analysis</h2>
+        <canvas id="evenOddChart" height="150"></canvas>
+        <p>Live bars and circle analysis goes here...</p>
+      </div>
+      <div class="execution-section">
+        <h2>Trade Execution</h2>
+        <label>Volatility:
+          <select id="volatility-eo">
+            <option value="R_10">Volatility 10 (1s)</option>
+            <option value="R_25">Volatility 25 (1s)</option>
+            <option value="R_50">Volatility 50 (1s)</option>
+            <option value="R_100">Volatility 100 (1s)</option>
+          </select>
+        </label>
+        <label>Stake: <input type="number" id="stake-eo" value="0.35" /></label>
+        <label>Martingale Factor: <input type="number" id="multi-eo" value="2" /></label>
+        <label>Prediction Ticks: <input type="number" id="ticks-eo" value="1" /></label>
+        <div class="button-group">
+          <button id="evenBtn">Even</button>
+          <button id="oddBtn">Odd</button>
+        </div>
+        <div class="status">Results and logs appear here.</div>
+      </div>
+    </div>
+  `;
 }
 
-function handleProposal(data) {
-  const payout = data.proposal.payout;
-  const table = document.querySelector(".trade-log-table tbody");
-  const row = document.createElement("tr");
-  row.innerHTML = `
-    <td>$${data.proposal.amount}</td>
-    <td>$${payout}</td>
-    <td>${contractType}</td>
-    <td>${Math.random().toFixed(5)}</td>
-    <td>${Math.random().toFixed(5)}</td>`;
-  table.appendChild(row);
-
-  const summary = document.querySelector(".trade-summary");
-  summary.textContent = `📈 Profit: $${(payout - data.proposal.amount).toFixed(2)}`;
+// Render Over/Under panel
+function renderOverUnder() {
+  const panel = document.getElementById("over-under");
+  panel.innerHTML = `
+    <div class="strategy-wrapper">
+      <div class="analysis-section">
+        <h2>Over/Under Analysis</h2>
+        <p>Live bars and deriv-style digit circles</p>
+      </div>
+      <div class="execution-section">
+        <h2>Trade Execution</h2>
+        <label>Volatility:
+          <select id="volatility-ou">
+            <option value="R_10">Volatility 10 (1s)</option>
+            <option value="R_25">Volatility 25 (1s)</option>
+            <option value="R_50">Volatility 50 (1s)</option>
+            <option value="R_100">Volatility 100 (1s)</option>
+          </select>
+        </label>
+        <label>Stake: <input type="number" id="stake-ou" value="0.35" /></label>
+        <label>Prediction Digit: <input type="number" id="digit-ou" min="0" max="9" /></label>
+        <div class="button-group">
+          <button id="overBtn">Over</button>
+          <button id="underBtn">Under</button>
+        </div>
+        <div class="status">Trade result will appear here.</div>
+      </div>
+    </div>
+  `;
 }
 
-setInterval(() => {
-  if (token) ws.send(JSON.stringify({ balance: 1, subscribe: 1 }));
-}, 5000);
+// Load default tab
+window.addEventListener("DOMContentLoaded", () => {
+  switchTab("even-odd");
+});
