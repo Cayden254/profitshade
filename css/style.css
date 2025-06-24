@@ -1,198 +1,135 @@
-/* ============================
-   🎨 ProfitShade FX Style.css
-   ============================ */
+/* style.css - ProfitShade FX UI Styling */
 
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom right, #111827, #1f2937);
-  color: #f1f5f9;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(145deg, #1f1f2e, #2e2e3f);
+  color: #fff;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  padding: 1rem;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 header {
-  width: 100%;
-  max-width: 960px;
+  padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
-  border-radius: 1rem;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
-  margin-bottom: 1rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.strategy-tabs {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
-}
-
-.strategy-tabs button {
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  color: #f1f5f9;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-}
-
-.strategy-tabs button:hover {
-  background: #4ade80;
-  color: #111;
-}
-
-.strategy-panel {
-  background: rgba(255,255,255,0.05);
-  padding: 1rem;
-  border-radius: 1rem;
-  max-width: 960px;
-  width: 100%;
-  box-shadow: 0 0 30px rgba(0,0,0,0.6);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.controls select,
-input {
-  background: rgba(255,255,255,0.1);
-  border: none;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  color: #fff;
-  width: 100%;
-}
-
-.analysis {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  background: rgba(255,255,255,0.02);
-  padding: 1rem;
-  border-radius: 1rem;
-}
-
-.bar-visual {
-  display: flex;
-  gap: 5px;
-  height: 80px;
-  align-items: flex-end;
-  justify-content: space-around;
-}
-
-.bar-visual div {
-  width: 20px;
-  border-radius: 0.5rem;
-  text-align: center;
-  font-size: 0.75rem;
-  font-weight: bold;
-}
-
-.circle-grid {
-  display: flex;
-  gap: 10px;
-  justify-content: space-around;
-}
-
-.circle-grid div {
+.brand {
   display: flex;
   align-items: center;
-  justify-content: center;
-  color: #fff;
+  gap: 1rem;
+}
+
+.brand h1 {
+  font-size: 1.5rem;
   font-weight: bold;
+  color: #f9d423;
 }
 
-.execution input {
-  margin-bottom: 0.5rem;
+.logo {
+  height: 40px;
 }
 
-.contract-options button {
-  margin: 0.3rem;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
+.auth-status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.auth-status button {
+  margin-top: 0.5rem;
+  padding: 0.4rem 1rem;
   border: none;
-  background-color: #6366f1;
+  border-radius: 8px;
+  background: #00c9a7;
   color: #fff;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.contract-options button:hover {
-  background-color: #4f46e5;
-}
-
-button.start-btn,
-button.pause-btn,
-button.stop-btn {
-  padding: 0.5rem 1rem;
-  margin-right: 0.5rem;
-  border-radius: 0.5rem;
-  border: none;
-  color: #fff;
-  background: #10b981;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 201, 167, 0.3);
+  transition: background 0.3s;
 }
 
-button.pause-btn {
-  background: #f59e0b;
+.auth-status button:hover {
+  background: #02b298;
 }
 
-button.stop-btn {
-  background: #ef4444;
+.main-content {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
 }
 
-button:hover {
-  transform: scale(1.05);
+.sidebar {
+  width: 220px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(6px);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.trade-summary {
-  margin-top: 1rem;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #facc15;
+.tab-button {
+  margin-bottom: 1rem;
+  padding: 0.6rem 1rem;
+  background: transparent;
+  color: #fff;
+  font-weight: 600;
+  border: 1px solid #00c9a7;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-.trade-log-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-  font-size: 0.9rem;
+.tab-button:hover,
+.tab-button.active {
+  background: #00c9a7;
+  color: #000;
 }
 
-.trade-log-table th,
-.trade-log-table td {
-  border: 1px solid #334155;
-  padding: 0.5rem;
+.content-area {
+  flex: 1;
+  padding: 1rem 2rem;
+  overflow-y: auto;
+}
+
+.tab-content {
+  display: none;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+footer {
+  padding: 0.8rem;
   text-align: center;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 0.85rem;
+  color: #ccc;
 }
 
-@media screen and (max-width: 768px) {
-  .bar-visual,
-  .circle-grid {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+.hidden {
+  display: none;
+}
 
-  .strategy-panel {
-    padding: 1rem 0.5rem;
-  }
-
-  header, nav, .strategy-tabs {
-    flex-direction: column;
-    align-items: center;
-  }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
