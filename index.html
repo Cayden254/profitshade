@@ -2,28 +2,84 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>ProfitShade Login</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProfitShade FX</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="login-screen">
-    <div class="glass-card">
-      <h2>Login</h2>
-      <input id="email" type="email" placeholder="Email" />
-      <input id="password" type="password" placeholder="Password" />
-      <button id="login-btn">Login</button>
-      <p id="login-error" class="hidden error">Invalid email or password</p>
+  <header>
+    <h1>📈 ProfitShade FX - Trade Smart, Profit Sharp</h1>
+    <div id="account-info">🔒 Not connected</div>
+    <button onclick="loginToDerivPrompt()">🔗 Link Deriv Account</button>
+  </header>
+
+  <nav class="strategy-tabs">
+    <button onclick="showStrategy('evenodd')">Even / Odd</button>
+    <button onclick="showStrategy('overunder')">Over / Under</button>
+    <button onclick="showStrategy('matches')">Matches / Differs</button>
+    <button onclick="showStrategy('risefall')">Rise / Fall</button>
+    <button onclick="showRiskCalculator()">📊 Risk Calculator</button>
+  </nav>
+
+  <main id="strategy-content"></main>
+
+  <template id="strategy-template">
+    <div class="strategy-panel">
+      <h2 class="strategy-title"></h2>
+      <div class="controls">
+        <label>Volatility:
+          <select class="volatility-select">
+            <option value="R_10">Volatility 10 (1s)</option>
+            <option value="1HZ10V">Volatility 10</option>
+            <option value="R_25">Volatility 25 (1s)</option>
+            <option value="1HZ25V">Volatility 25</option>
+            <option value="R_50">Volatility 50 (1s)</option>
+            <option value="1HZ50V">Volatility 50</option>
+            <option value="R_100">Volatility 100 (1s)</option>
+            <option value="1HZ100V">Volatility 100</option>
+            <option value="JD10">Jump 10</option>
+            <option value="JD25">Jump 25</option>
+            <option value="JD50">Jump 50</option>
+            <option value="JD100">Jump 100</option>
+            <option value="BEAR">Bear Market</option>
+            <option value="BULL">Bull Market</option>
+          </select>
+        </label>
+
+        <label>Timeframe:
+          <select class="timeframe-select">
+            <option value="1">1s</option>
+            <option value="5" selected>5s</option>
+            <option value="10">10s</option>
+            <option value="15">15s</option>
+          </select>
+        </label>
+      </div>
+
+      <section class="analysis">
+        <div class="bar-visual"></div>
+        <div class="circle-grid"></div>
+      </section>
+
+      <section class="execution">
+        <input class="stake-input" placeholder="Stake ($)" type="number" />
+        <input class="prediction-input" placeholder="Prediction Digit" type="number" />
+        <input class="ticks-input" placeholder="Ticks (e.g. 1, 2, 5)" type="number" />
+        <div class="contract-options"></div>
+        <button class="start-btn">▶️ Start Trades</button>
+        <button class="pause-btn">⏸ Pause</button>
+        <button class="stop-btn">⛔ Stop</button>
+        <div class="trade-summary"></div>
+        <table class="trade-log-table">
+          <thead>
+            <tr><th>Stake</th><th>Payout</th><th>Type</th><th>Entry</th><th>Exit</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
     </div>
-  </div>
+  </template>
 
-  <div id="dashboard" class="hidden">
-    <aside id="sidebar-tabs"></aside>
-    <main id="tab-content">
-      <div class="glass-card">Welcome to ProfitShade</div>
-    </main>
-  </div>
-
-  <script type="module" src="main.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
