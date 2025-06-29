@@ -1,52 +1,47 @@
-// main.js
+const app_id = 82139; // Your WebSocket App ID
+const linkBtn = document.getElementById('linkAccount');
+const tradeBtn = document.getElementById('startTrading');
+const status = document.getElementById('status');
 
-let socket;
-const app_id = 82139; // Your Deriv App ID
+linkBtn.onclick = () => {
+  const redirect = window.location.origin + window.location.pathname;
+  const oauthURL = `https://oauth.deriv.com/oauth2/authorize?app_id=${app_id}&redirect_uri=${redirect}`;
+  window.location.href = oauthURL;
+};
 
-document.getElementById('link-account').addEventListener('click', () => {
-  const url = `https://oauth.deriv.com/oauth2/authorize?app_id=${app_id}&redirect_uri=${window.location.href}`;
-  window.location.href = url;
-});
-
-window.addEventListener('load', async () => {
+window.onload = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get('token1');
 
   if (token) {
     localStorage.setItem('deriv_token', token);
-    window.history.replaceState({}, document.title, '/'); // Clean URL
     connectToDeriv(token);
+    window.history.replaceState({}, document.title, window.location.pathname); // clean URL
   } else {
-    const storedToken = localStorage.getItem('deriv_token');
-    if (storedToken) connectToDeriv(storedToken);
+    const savedToken = localStorage.getItem('deriv_token');
+    if (savedToken) {
+      connectToDeriv(savedToken);
+    }
   }
-});
+};
 
 function connectToDeriv(token) {
-  socket = new WebSocket('wss://ws.derivws.com/websockets/v3?app_id=' + app_id);
+  const ws = new WebSocket('wss://ws.derivws.com/websockets/v3?app_id=' + app_id);
 
-  socket.onopen = () => {
-    socket.send(JSON.stringify({ authorize: token }));
+  ws.onopen = () => {
+    ws.send(JSON.stringify({ authorize: token }));
   };
 
-  socket.onmessage = (msg) => {
+  ws.onmessage = (msg) => {
     const data = JSON.parse(msg.data);
-    if (data.msg_type === 'authorize') {
-      const { loginid, currency, balance } = data.authorize;
-      document.getElementById('account-info').innerHTML = `
-        <p><strong>Account:</strong> ${loginid}</p>
-        <p><strong>Currency:</strong> ${currency}</p>
-        <p><strong>Balance:</strong> ${balance}</p>
-      `;
-      document.getElementById('account-info').classList.remove('hidden');
-      document.getElementById('start-trading').classList.remove('hidden');
-    } else if (data.error) {
-      alert('Authorization error: ' + data.error.message);
+
+    if (data.error) {
+      status.textContent = '❌ Invalid or expired token. Please link account again.';
+      tradeBtn.disabled = true;
+      localStorage.removeItem('deriv_token');
+    } else if (data.msg_type === 'authorize') {
+      status.textContent = `✅ Welcome, ${data.authorize.loginid}`;
+      tradeBtn.disabled = false;
     }
   };
 }
-
-document.getElementById('start-trading').addEventListener('click', () => {
-  document.getElementById('home').classList.add('hidden');
-  document.getElementById('dashboard').classList.remove('hidden');
-});
