@@ -1,30 +1,43 @@
 body {
-  background-color: #0d0d0d;
-  color: #ffffff;
+  margin: 0;
   font-family: 'Segoe UI', sans-serif;
+  background-color: #0d0b1b;
+  color: #d4c4ff;
   text-align: center;
   padding: 50px;
 }
 
-button {
-  padding: 10px 20px;
+.container {
+  max-width: 600px;
+  margin: auto;
+}
+
+h1 {
+  color: #b76eff;
+  font-size: 3em;
+}
+
+.buttons button,
+.buttons a {
+  display: inline-block;
   margin: 10px;
+  padding: 12px 20px;
   font-size: 16px;
+  background-color: #5d3eff;
   border: none;
   border-radius: 8px;
-  cursor: pointer;
-  background-color: #8f00ff;
   color: white;
-  box-shadow: 0 0 10px #8f00ff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-.hidden {
-  display: none;
+.buttons button:hover,
+.buttons a:hover {
+  background-color: #8c5eff;
 }
 
-#account-info {
-  margin-top: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 20px;
-  border-radius: 10px;
+#startTrading:disabled {
+  background-color: #333;
+  cursor: not-allowed;
 }
