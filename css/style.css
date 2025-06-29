@@ -1,135 +1,30 @@
-/* style.css - ProfitShade FX UI Styling */
-
 body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(145deg, #1f1f2e, #2e2e3f);
-  color: #fff;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  background-color: #0d0d0d;
+  color: #ffffff;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  padding: 50px;
 }
 
-.app-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-
-header {
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.brand h1 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #f9d423;
-}
-
-.logo {
-  height: 40px;
-}
-
-.auth-status {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.auth-status button {
-  margin-top: 0.5rem;
-  padding: 0.4rem 1rem;
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 16px;
   border: none;
   border-radius: 8px;
-  background: #00c9a7;
-  color: #fff;
-  font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 201, 167, 0.3);
-  transition: background 0.3s;
-}
-
-.auth-status button:hover {
-  background: #02b298;
-}
-
-.main-content {
-  flex: 1;
-  display: flex;
-  overflow: hidden;
-}
-
-.sidebar {
-  width: 220px;
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(6px);
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.tab-button {
-  margin-bottom: 1rem;
-  padding: 0.6rem 1rem;
-  background: transparent;
-  color: #fff;
-  font-weight: 600;
-  border: 1px solid #00c9a7;
-  border-radius: 10px;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.tab-button:hover,
-.tab-button.active {
-  background: #00c9a7;
-  color: #000;
-}
-
-.content-area {
-  flex: 1;
-  padding: 1rem 2rem;
-  overflow-y: auto;
-}
-
-.tab-content {
-  display: none;
-  animation: fadeIn 0.5s ease-in-out;
-}
-
-.tab-content.active {
-  display: block;
-}
-
-footer {
-  padding: 0.8rem;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.05);
-  font-size: 0.85rem;
-  color: #ccc;
+  background-color: #8f00ff;
+  color: white;
+  box-shadow: 0 0 10px #8f00ff;
 }
 
 .hidden {
   display: none;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+#account-info {
+  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  border-radius: 10px;
 }
