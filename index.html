@@ -1,87 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ProfitShade</title>
+  <meta charset="UTF-8">
+  <title>ProfitShade - Smart Trading</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #0f0f1c, #1a0a1f);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #0d0d0d;
       color: #fff;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      text-align: center;
+      min-height: 100vh;
     }
-
     h1 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
+      color: #c084fc;
+      margin-bottom: 10px;
     }
-
-    .logo {
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: #b266ff;
+    p {
+      color: #ccc;
+      margin-bottom: 30px;
     }
-
-    .btn {
-      margin: 10px;
-      padding: 10px 15px;
+    button {
+      background-color: #c084fc;
+      color: #000;
       border: none;
-      border-radius: 10px;
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 8px;
       cursor: pointer;
-      font-weight: bold;
-      font-size: 1rem;
-      transition: 0.2s;
-      background-color: #1a1a1a;
-      color: #fff;
-      border: 1px solid #b266ff;
+      transition: 0.3s ease;
     }
-
-    .btn:hover {
-      background-color: #b266ff;
-      color: #0d0d0d;
+    button:hover {
+      background-color: #a855f7;
     }
-
-    .emoji {
-      font-size: 1.5rem;
-      margin-right: 10px;
+    .hidden {
+      display: none;
+    }
+    .logo {
+      font-size: 40px;
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
-  <div>
-    <div class="logo">🚀 ProfitShade</div>
 
-    <div>
-      <button class="btn" onclick="linkDeriv()">🔗 Link Deriv Account</button>
-      <button class="btn" onclick="createDeriv()">🧾 Create Deriv Account</button>
-    </div>
+  <div class="logo">🚀 ProfitShade</div>
 
-    <div>
-      <button class="btn">🎯 Start Trading</button>
-    </div>
+  <div id="welcome-screen">
+    <h1>Welcome to ProfitShade</h1>
+    <p>Trade Smart. Profit Sharp.</p>
+    <button id="create-account-btn">🆕 Create Deriv Account</button>
+    <button id="link-account-btn">🔗 Link Deriv Account</button>
+  </div>
 
-    <h1>📊 Welcome to ProfitShade Dashboard</h1>
+  <div id="dashboard" class="hidden">
+    <h1>✅ Account Linked</h1>
+    <p>You are now logged in with your Deriv account.</p>
+    <button id="logout-btn">🚪 Log Out</button>
   </div>
 
   <script>
-    function createDeriv() {
-      // Redirect with your referral link
-      window.location.href = "https://deriv.com/signup?sidc=F29079D3-31B8-4321-8A5B-0B13DBD26761&utm_campaign=dynamicworks&utm_medium=affiliate&utm_source=CU23076";
+    const app_id = 82139; // Use your App ID here
+    const redirect_uri = window.location.origin + window.location.pathname;
+
+    // Check if we're coming back from Deriv with a token
+    const urlParams = new URLSearchParams(window.location.search);
+    const tokenFromUrl = urlParams.get("token");
+
+    if (tokenFromUrl) {
+      localStorage.setItem("deriv_token", tokenFromUrl);
+      // Remove token from URL after storing
+      window.history.replaceState({}, document.title, redirect_uri);
     }
 
-    function linkDeriv() {
-      const app_id = 82139;
-      const redirect_uri = window.location.origin + "/auth.html";
-      const oauth_url = `https://oauth.deriv.com/oauth2/authorize?app_id=${app_id}&redirect_uri=${redirect_uri}`;
-      window.location.href = oauth_url;
+    const token = localStorage.getItem("deriv_token");
+    const welcomeScreen = document.getElementById("welcome-screen");
+    const dashboard = document.getElementById("dashboard");
+
+    if (token) {
+      welcomeScreen.classList.add("hidden");
+      dashboard.classList.remove("hidden");
     }
+
+    // Buttons
+    document.getElementById("create-account-btn").addEventListener("click", () => {
+      window.location.href = "https://deriv.com/signup?sidc=F29079D3-31B8-4321-8A5B-0B13DBD26761&utm_campaign=dynamicworks&utm_medium=affiliate&utm_source=CU23076";
+    });
+
+    document.getElementById("link-account-btn").addEventListener("click", () => {
+      const oauthUrl = `https://oauth.deriv.com/oauth2/authorize?app_id=${app_id}&redirect_uri=${redirect_uri}`;
+      window.location.href = oauthUrl;
+    });
+
+    document.getElementById("logout-btn").addEventListener("click", () => {
+      localStorage.removeItem("deriv_token");
+      location.reload();
+    });
   </script>
+
 </body>
 </html>
