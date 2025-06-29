@@ -1,51 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ProfitShade FX</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ProfitShade - Login</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="/deriv-logo.svg" type="image/svg+xml" />
 </head>
-
 <body>
-  <div class="app-container">
-    <header>
-      <div class="brand">
-        <img src="/deriv-logo.svg" class="logo" />
-        <h1>ProfitShade FX - Trade Smart, Profit Sharp</h1>
-      </div>
-      <div class="auth-status">
-        <span id="connection-status">🔒 Not connected</span>
-        <button id="link-deriv">🔑 Link Deriv Account</button>
-      </div>
-    </header>
+  <div id="home">
+    <h1>🚀 ProfitShade</h1>
+    <button id="link-account">🔗 Link Deriv Account</button>
+    <button id="create-account" onclick="window.open('https://deriv.com/signup?app_id=82139')">🆕 Create Deriv Account</button>
+  </div>
 
-    <div class="main-content">
-      <aside class="sidebar">
-        <button class="tab-button" data-tab="even-odd">Even / Odd</button>
-        <button class="tab-button" data-tab="over-under">Over / Under</button>
-        <button class="tab-button" data-tab="matches-differs">Matches / Differs</button>
-        <button class="tab-button" data-tab="rise-fall">Rise / Fall</button>
-        <button class="tab-button" data-tab="risk-calculator">📊 Risk Calculator</button>
-      </aside>
+  <div id="account-info" class="hidden"></div>
 
-      <section class="content-area">
-        <div id="even-odd" class="tab-content hidden"></div>
-        <div id="over-under" class="tab-content hidden"></div>
-        <div id="matches-differs" class="tab-content hidden"></div>
-        <div id="rise-fall" class="tab-content hidden"></div>
-        <div id="risk-calculator" class="tab-content hidden"></div>
-      </section>
-    </div>
+  <button id="start-trading" class="hidden">Start Trading</button>
 
-    <footer>
-      <p>Powered by Deriv API | Created by ProfitShade FX</p>
-    </footer>
+  <div id="dashboard" class="hidden">
+    <h2>📊 Welcome to ProfitShade Dashboard</h2>
+    <!-- Strategies will load here -->
   </div>
 
   <script src="main.js"></script>
 </body>
-
 </html>
