@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ProfitShade Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0b0b0b;
+      color: #b266ff;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding-top: 80px;
+    }
+
+    h1 {
+      font-size: 32px;
+    }
+
+    #balance {
+      margin: 20px auto;
+      font-size: 24px;
+      color: #66ccff;
+    }
+
+    button {
+      background: #b266ff;
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      font-size: 18px;
+      margin: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background: #9933ff;
+    }
+
+    #logout-btn {
+      background-color: #ff4444;
+    }
+
+    #logout-btn:hover {
+      background-color: #cc0000;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>👋 Welcome to ProfitShade</h1>
+  <div id="balance">Loading your balance...</div>
+
+  <button onclick="startTrading()">🚀 Start Trading</button>
+  <button id="logout-btn" onclick="logout()">Logout</button>
+
+  <script>
+    const token = localStorage.getItem("deriv_token");
+
+    if (!token) {
+      window.location.href = "index.html"; // Send back to login if not linked
+    }
+
+    const ws = new WebSocket("wss://ws.derivws.com/websockets/v3?app_id=82139");
+
+    ws.onopen = () => {
+      ws.send(JSON.stringify({
+        authorize: token
+      }));
+    };
+
+    ws.onmessage = (msg) => {
+      const data = JSON.parse(msg.data);
+
+      if (data.msg_type === "authorize") {
+        const loginid = data.authorize.loginid;
+        const currency = data.authorize.currency;
+
+        // Now get balance
+        ws.send(JSON.stringify({ balance: 1, account: loginid }));
+      }
+
+      if (data.msg_type === "balance") {
+        const balance = data.balance.balance;
+        const currency = data.balance.currency;
+        document.getElementById("balance").textContent = `💰 Balance: ${currency} ${balance}`;
+      }
+    };
+
+    function startTrading() {
+      window.location.href = "trade.html"; // Coming in Step 5
+    }
+
+    function logout() {
+      localStorage.removeItem("deriv_token");
+      window.location.href = "index.html";
+    }
+  </script>
+
+</body>
+</html>
