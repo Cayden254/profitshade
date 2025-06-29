@@ -3,25 +3,85 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ProfitShade | Login</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>ProfitShade</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0d0d0d;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .logo {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #b266ff;
+    }
+
+    .btn {
+      margin: 10px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: 0.2s;
+      background-color: #1a1a1a;
+      color: #fff;
+      border: 1px solid #b266ff;
+    }
+
+    .btn:hover {
+      background-color: #b266ff;
+      color: #0d0d0d;
+    }
+
+    .emoji {
+      font-size: 1.5rem;
+      margin-right: 10px;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🚀 ProfitShade</h1>
-    <p>Smart. Sharp. Profitable.</p>
+  <div>
+    <div class="logo">🚀 ProfitShade</div>
 
-    <div class="buttons">
-      <button id="linkAccount">🔗 Link Deriv Account</button>
-      <a id="createAccount" href="https://deriv.com/signup?sidc=F29079D3-31B8-4321-8A5B-0B13DBD26761&utm_campaign=dynamicworks&utm_medium=affiliate&utm_source=CU23076" target="_blank">
-        🆕 Create Deriv Account
-      </a>
-      <button id="startTrading" disabled>🚦 Start Trading</button>
+    <div>
+      <button class="btn" onclick="linkDeriv()">🔗 Link Deriv Account</button>
+      <button class="btn" onclick="createDeriv()">🧾 Create Deriv Account</button>
     </div>
 
-    <h2 id="status">Welcome to ProfitShade</h2>
+    <div>
+      <button class="btn">🎯 Start Trading</button>
+    </div>
+
+    <h1>📊 Welcome to ProfitShade Dashboard</h1>
   </div>
 
-  <script src="main.js"></script>
+  <script>
+    function createDeriv() {
+      // Redirect with your referral link
+      window.location.href = "https://deriv.com/signup?sidc=F29079D3-31B8-4321-8A5B-0B13DBD26761&utm_campaign=dynamicworks&utm_medium=affiliate&utm_source=CU23076";
+    }
+
+    function linkDeriv() {
+      const app_id = 82139;
+      const redirect_uri = window.location.origin + "/auth.html";
+      const oauth_url = `https://oauth.deriv.com/oauth2/authorize?app_id=${app_id}&redirect_uri=${redirect_uri}`;
+      window.location.href = oauth_url;
+    }
+  </script>
 </body>
 </html>
