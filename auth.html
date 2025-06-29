@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Linking Deriv Account...</title>
+  <style>
+    body {
+      background-color: #0d0d0d;
+      color: #b266ff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 100px;
+    }
+  </style>
+</head>
+<body>
+  <h2>🔄 Linking your Deriv account...</h2>
+
+  <script>
+    // Capture token from URL
+    const hash = window.location.hash;
+    const token = new URLSearchParams(hash.substring(1)).get('token');
+
+    if (token) {
+      // Store token securely in browser
+      localStorage.setItem("deriv_token", token);
+
+      // Redirect to dashboard (you can change the path if needed)
+      window.location.href = "dashboard.html";
+    } else {
+      document.body.innerHTML = "<h2>❌ Failed to get token. Please try again.</h2>";
+    }
+  </script>
+</body>
+</html>
